@@ -3,7 +3,7 @@ Last update: ```r {date()}```
 
 ```{r global_options}
 library(knitr)
-opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = FALSE, fig.width = 9)
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = FALSE, fig.width = 9, results = "asis")
 ```
 
 ```{r DataSet}
@@ -1115,53 +1115,39 @@ k <- function(x){KW <- kruskal.test(x, EGFR); P <- KW$p.value}
 # Condensed Fisher test
 f <- function(x){FT <- fisher.test(x, EGFR); P <- FT$p.value} 
 # Estimation of raw P values
-p.age <- k(age) # 1
-p.race <- f(race) # 2
-p.subtype <- f(subtype) # 3
-p.site <- f(site) # 4
-p.level <- f(level) # 5
-p.grade <- f(grade) # 6
-p.thick <- f(thick) # 7
-p.urethra <- f(urethra) # 8
-p.lvi <- f(lvi) # 9
-p.pni <- f(pni) # 10
-p.pt <- f(tnm.tumor) # 11
-p.pn <- f(tnm.nodes) # 12
-p.stage <- f(stage) # 13
-p.nodes <- f(nodes) # 14
-p.recurrence <- f(recurrence) # 15
-p.progression <- f(progression) # 16
-p.mets <- f(mets) # 17
-p.dead <- f(dead) # 18
-p.dod <- f(died.disease) # 19
+p.age <- k(age)
+p.race <- f(race)
+p.subtype <- f(subtype)
+p.site <- f(site)
+p.level <- f(level)
+p.grade <- f(grade)
+p.thick <- f(thick)
+p.urethra <- f(urethra)
+p.lvi <- f(lvi)
+p.pni <- f(pni)
+p.pt <- f(tnm.tumor)
+p.pn <- f(tnm.nodes)
+p.stage <- f(stage)
+p.nodes <- f(nodes)
+p.recurrence <- f(recurrence)
+p.progression <- f(progression)
+p.mets <- f(mets)
+p.dead <- f(dead)
+p.dod <- f(died.disease)
+# List of variable names
+p.names <- c("Patient's age", "Patient's race", "Histologic subtype", "Anatomical site", "Anatomical level", "Histologic grade", "Tumor thickness", "Urethra invasion", "Lymphovascular invasion", "Perineural invasion", "Stage pT", "Stage pN", "Clinical stage", "Metastatic inguinal lymph nodes", "Tumor recurrence", "Tumor progression", "Distant metastasis", "Overall mortality", "Cancer-related mortality")
 # List of raw P values
 p.raw <- c(p.age, p.race, p.subtype, p.site, p.level, p.grade, p.thick, p.urethra, p.lvi, p.pni, p.pt, p.pn, p.stage, p.nodes, p.recurrence, p.progression, p.mets, p.dead, p.dod)
 p.raw <- round(p.raw, digits = 2)
 # Adjusting P values using Hommel's correction
 p.adjusted <- p.adjust(p.raw, method = c("hommel"))
+# Combining raw and adjusted P values
+p.table <- cbind("Variables" = p.names, "Raw P values" = p.raw, "Adjusted P values" = p.adjusted)
+# Creating the output table
+kable(p.table, format = "markdown")
 ```
 
-Variable | Raw P value | Adjusted P value
---- | :---: | :---:
-Patient's age | `r p.raw[1]` | `r p.adjusted[1]`
-Patient's race | `r p.raw[2]` | `r p.adjusted[2]`
-Histologic subtype | `r p.raw[3]` | `r p.adjusted[3]`
-Anatomical site | `r p.raw[4]` | `r p.adjusted[4]`
-Anatomical level | `r p.raw[5]` | `r p.adjusted[5]`
-Histologic grade | `r p.raw[6]` | `r p.adjusted[6]`
-Tumor thickness | `r p.raw[7]` | `r p.adjusted[7]`
-Urethra invasion | `r p.raw[8]` | `r p.adjusted[8]`
-Lymphovascular invasion | `r p.raw[9]` | `r p.adjusted[9]`
-Perineural invasion | `r p.raw[10]` | `r p.adjusted[10]`
-Stage pT | `r p.raw[11]` | `r p.adjusted[11]`
-Stage pN | `r p.raw[12]` | `r p.adjusted[12]`
-Clinical stage | `r p.raw[13]` | `r p.adjusted[13]`
-Metastatic inguinal lymph nodes | `r p.raw[14]` | `r p.adjusted[14]`
-Tumor recurrence | `r p.raw[15]` | `r p.adjusted[15]`
-Tumor progression | `r p.raw[16]` | `r p.adjusted[16]`
-Distant metastasis | `r p.raw[17]` | `r p.adjusted[17]`
-Overall mortality | `r p.raw[18]` | `r p.adjusted[18]`
-Cancer-related mortality | `r p.raw[19]` | `r p.adjusted[19]`
+***
 
 ## Survival Analysis
 This section, currently under preparation, will include survival plots drawn using the Kapplan-Meier method and compared using the Mantel-Cox test.

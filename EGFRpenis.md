@@ -1,10 +1,10 @@
 # EGFR Expression in Penile Cancer
-Last update: ``Tue Sep 23 15:03:19 2014``
+Last update: ``Wed Sep 24 08:23:26 2014``
 
 
 ```r
 library(knitr)
-opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = FALSE, fig.width = 9)
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = FALSE, fig.width = 9, results = "asis")
 ```
 
 
@@ -810,28 +810,29 @@ Yes | 3 (33.3) | 0 (0) | 6 (66.7)
 ### Adjusted P values
 
 
+|Variables                       |Raw P values |Adjusted P values |
+|:-------------------------------|:------------|:-----------------|
+|Patient's age                   |0.86         |0.91              |
+|Patient's race                  |0.87         |0.91              |
+|Histologic subtype              |0.24         |0.91              |
+|Anatomical site                 |0.45         |0.91              |
+|Anatomical level                |0.71         |0.91              |
+|Histologic grade                |0.58         |0.91              |
+|Tumor thickness                 |0.15         |0.91              |
+|Urethra invasion                |0.15         |0.91              |
+|Lymphovascular invasion         |0.09         |0.91              |
+|Perineural invasion             |0.04         |0.64              |
+|Stage pT                        |0.48         |0.91              |
+|Stage pN                        |0.91         |0.91              |
+|Clinical stage                  |0.42         |0.91              |
+|Metastatic inguinal lymph nodes |0.57         |0.91              |
+|Tumor recurrence                |0.32         |0.91              |
+|Tumor progression               |0.01         |0.19              |
+|Distant metastasis              |0.09         |0.91              |
+|Overall mortality               |0.57         |0.91              |
+|Cancer-related mortality        |0.26         |0.91              |
 
-Variable | Raw P value | Adjusted P value
---- | :---: | :---:
-Patient's age | 0.86 | 0.91
-Patient's race | 0.87 | 0.91
-Histologic subtype | 0.24 | 0.91
-Anatomical site | 0.45 | 0.91
-Anatomical level | 0.71 | 0.91
-Histologic grade | 0.58 | 0.91
-Tumor thickness | 0.15 | 0.91
-Urethra invasion | 0.15 | 0.91
-Lymphovascular invasion | 0.09 | 0.91
-Perineural invasion | 0.04 | 0.64
-Stage pT | 0.48 | 0.91
-Stage pN | 0.91 | 0.91
-Clinical stage | 0.42 | 0.91
-Metastatic inguinal lymph nodes | 0.57 | 0.91
-Tumor recurrence | 0.32 | 0.91
-Tumor progression | 0.01 | 0.19
-Distant metastasis | 0.09 | 0.91
-Overall mortality | 0.57 | 0.91
-Cancer-related mortality | 0.26 | 0.91
+***
 
 ## Survival Analysis
 This section, currently under preparation, will include survival plots drawn using the Kapplan-Meier method and compared using the Mantel-Cox test.
