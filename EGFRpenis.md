@@ -1,13 +1,11 @@
 # EGFR Expression in Penile Cancer
-Last update: ``Wed Sep 24 08:23:26 2014``
+Last update: ``Wed Sep 24 15:08:42 2014``
 
 
 ```r
 library(knitr)
 opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = FALSE, fig.width = 9, results = "asis")
 ```
-
-
 
 
 
@@ -20,33 +18,35 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = FALSE, fi
 #### Patient's age
 
 
-Statistics | Value
---- | :---:
-Mean | 65.8
-Standard Deviation | 12
-Median | 65
-Interquartile Range | 18
-Minimum | 38
-Maximum | 93
+
+|Statistics          |Values |
+|:-------------------|:------|
+|Mean                |65.8   |
+|Standard Deviation  |12     |
+|Median              |65     |
+|Interquartile Range |18     |
+|Mininum             |38     |
+|Maximum             |93     |
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveAge](figure/DescriptiveAge.png) 
+![plot of chunk AgePlot](figure/AgePlot.png) 
 
 ***
 
 #### Patient's race
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Caucasian | 37 (69.8)
-African-American | 12 (22.6)
-Other | 4 (7.5)
+
+|                 | No. Cases|    %|
+|:----------------|---------:|----:|
+|Caucasian        |      37.0| 69.8|
+|African-American |      12.0| 22.6|
+|Other            |       4.0|  7.5|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveRace.plots](figure/DescriptiveRace.plots.png) 
+![plot of chunk RacePlot](figure/RacePlot.png) 
 
 ***
 
@@ -55,236 +55,251 @@ Other | 4 (7.5)
 #### Histologic subtype
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Basaloid | 6 (11.3)
-Others | 2 (3.8)
-Papillary | 2 (3.8)
-Usual | 33 (62.3)
-Verrucous | 3 (5.7)
-Warty | 5 (9.4)
-WB | 2 (3.8)
+
+|          | No. Cases|    %|
+|:---------|---------:|----:|
+|Basaloid  |       6.0| 11.3|
+|Others    |       2.0|  3.8|
+|Papillary |       2.0|  3.8|
+|Usual     |      33.0| 62.3|
+|Verrucous |       3.0|  5.7|
+|Warty     |       5.0|  9.4|
+|WB        |       2.0|  3.8|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveSubtype](figure/DescriptiveSubtype.png) 
+![plot of chunk SubtypePlot](figure/SubtypePlot.png) 
 
 ***
 
 #### Anatomical site
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Glans | 28 (52.8)
-Inner Foreskin | 1 (1.9)
-Shaft | 16 (30.2)
-Urethra | 8 (15.1)
+
+|               | No. Cases|    %|
+|:--------------|---------:|----:|
+|Glans          |      28.0| 52.8|
+|Inner Foreskin |       1.0|  1.9|
+|Shaft          |      16.0| 30.2|
+|Urethra        |       8.0| 15.1|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveSite](figure/DescriptiveSite.png) 
+![plot of chunk SitePlot](figure/SitePlot.png) 
 
 ***
 
 #### Anatomical level
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Lamina Propria | 20 (38.5)
-CS/Dartos | 15 (28.8)
-CC/Skin | 10 (19.2)
-Urethra | 6 (11.5)
-Other | 1 (1.9)
+
+|               | No. Cases|    %|
+|:--------------|---------:|----:|
+|Lamina Propria |      20.0| 38.5|
+|CS/Dartos      |      15.0| 28.8|
+|CC/Skin        |      10.0| 19.2|
+|Urethra        |       6.0| 11.5|
+|Other          |       1.0|  1.9|
 
 *No. missing cases: 1*
 
-![plot of chunk DescriptiveLevel](figure/DescriptiveLevel.png) 
+![plot of chunk LevelPlot](figure/LevelPlot.png) 
 
 ***
 
 #### Histologic grade
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Grade 1 | 11 (20.8)
-Grade 2 | 24 (45.3)
-Grade 3 | 18 (34)
+
+|        | No. Cases|    %|
+|:-------|---------:|----:|
+|Grade 1 |      11.0| 20.8|
+|Grade 2 |      24.0| 45.3|
+|Grade 3 |      18.0| 34.0|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveGrade](figure/DescriptiveGrade.png) 
+![plot of chunk GradePlot](figure/GradePlot.png) 
 
 ***
 
 #### Tumor thickness
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Less than 5 mm | 21 (39.6)
-5-10 mm | 16 (30.2)
-More than 10 mm | 16 (30.2)
+
+|                | No. Cases|    %|
+|:---------------|---------:|----:|
+|Less than 5 mm  |      21.0| 39.6|
+|5-10 mm         |      16.0| 30.2|
+|More than 10 mm |      16.0| 30.2|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveThickness](figure/DescriptiveThickness.png) 
+![plot of chunk ThickPlot](figure/ThickPlot.png) 
 
 ***
 
 #### Tumor invasion of penile urethra
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-No | 43 (81.1)
-Yes | 10 (18.9)
+
+|    | No. Cases|    %|
+|:---|---------:|----:|
+|No  |      43.0| 81.1|
+|Yes |      10.0| 18.9|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveUrethra](figure/DescriptiveUrethra.png) 
+![plot of chunk UrethraPlot](figure/UrethraPlot.png) 
 
 ***
 
 #### Lymphovascular invasion
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-No | 36 (67.9)
-Yes | 17 (32.1)
+
+|    | No. Cases|    %|
+|:---|---------:|----:|
+|No  |      36.0| 67.9|
+|Yes |      17.0| 32.1|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveLVI](figure/DescriptiveLVI.png) 
+![plot of chunk LVIPlot](figure/LVIPlot.png) 
 
 ***
 
 #### Perineural invasion
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-No | 36 (67.9)
-Yes | 17 (32.1)
+
+|    | No. Cases|    %|
+|:---|---------:|----:|
+|No  |      36.0| 67.9|
+|Yes |      17.0| 32.1|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptivePNI](figure/DescriptivePNI.png) 
+![plot of chunk PNIPlot](figure/PNIPlot.png) 
 
 ***
 
 #### HPV infection
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-No | 45 (84.9)
-Yes | 8 (15.1)
+
+|    | No. Cases|    %|
+|:---|---------:|----:|
+|No  |      45.0| 84.9|
+|Yes |       8.0| 15.1|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveHPV](figure/DescriptiveHPV.png) 
+![plot of chunk HPVPlot](figure/HPVPlot.png) 
 
 ***
 
 #### Pathologic pT stage
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Stage Ta | 1 (1.9)
-Stage T1a | 19 (35.8)
-Stage T1b | 1 (1.9)
-Stage T2 | 22 (41.5)
-Stage T3 | 9 (17)
-Stage T4 | 1 (1.9)
+
+|    | No. Cases|    %|
+|:---|---------:|----:|
+|Ta  |       1.0|  1.9|
+|T1a |      19.0| 35.8|
+|T1b |       1.0|  1.9|
+|T2  |      22.0| 41.5|
+|T3  |       9.0| 17.0|
+|T4  |       1.0|  1.9|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptivePT](figure/DescriptivePT.png) 
+![plot of chunk pTPlot](figure/pTPlot.png) 
 
 ***
 
 #### Pathologic pN stage
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Stage pN0 | 13 (44.8)
-Stage pN1 | 5 (17.2)
-Stage pN2 | 4 (13.8)
-Stage pN3 | 7 (24.1)
+
+|    | No. Cases|    %|
+|:---|---------:|----:|
+|pN0 |      13.0| 44.8|
+|pN1 |       5.0| 17.2|
+|pN2 |       4.0| 13.8|
+|pN3 |       7.0| 24.1|
 
 *No. missing cases: 24*
 
-![plot of chunk DescriptivePN](figure/DescriptivePN.png) 
+![plot of chunk pNPlot](figure/pNPlot.png) 
 
 ***
 
 #### Clinical stage
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Stage 0 | 1 (1.9)
-Stage I | 18 (34)
-Stage II | 18 (34)
-Stage IIIa | 5 (9.4)
-Stage IIIb | 2 (3.8)
-Stage IV | 9 (17)
+
+|           | No. Cases|    %|
+|:----------|---------:|----:|
+|Stage 0    |       1.0|  1.9|
+|Stage I    |      18.0| 34.0|
+|Stage II   |      18.0| 34.0|
+|Stage IIIa |       5.0|  9.4|
+|Stage IIIb |       2.0|  3.8|
+|Stage IV   |       9.0| 17.0|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveStage](figure/DescriptiveStage.png) 
+![plot of chunk StagePlot](figure/StagePlot.png) 
 
 ***
 
 #### Inguinal lymph node dissection
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Prophylactic | 10 (45.5)
-Post-Surgical | 12 (54.5)
+
+|              | No. Cases|    %|
+|:-------------|---------:|----:|
+|Prophylactic  |      10.0| 45.5|
+|Post-Surgical |      12.0| 54.5|
 
 *No. missing cases: 31*
 
-![plot of chunk DescriptiveDissection](figure/DescriptiveDissection.png) 
+![plot of chunk DissectionPlot](figure/DissectionPlot.png) 
 
 ***
 
 #### Positive (metastatic) inguinal lymph nodes
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Negative | 13 (44.8)
-Positive | 16 (55.2)
+
+|         | No. Cases|    %|
+|:--------|---------:|----:|
+|Negative |      13.0| 44.8|
+|Positive |      16.0| 55.2|
 
 *No. missing cases: 24*
 
-![plot of chunk DescriptiveLN](figure/DescriptiveLN.png) 
+![plot of chunk LNPlot](figure/LNPlot.png) 
 
 ***
 
 #### Time from treatment to lymphadenectomy
 
 
-Statistics | Value
---- | :---:
-Mean | 2.2
-Standard Deviation | 3.8
-Median | 1
-Interquartile Range | 18
-Minimum | 0
-Maximum | 14.5
+
+|Statistics          |Values |
+|:-------------------|:------|
+|Mean                |2.2    |
+|Standard Deviation  |3.8    |
+|Median              |1      |
+|Interquartile Range |1.7    |
+|Mininum             |0      |
+|Maximum             |14.5   |
 
 *No. missing cases: 31*
 
-![plot of chunk DescriptiveFollowUp](figure/DescriptiveFollowUp.png) 
+![plot of chunk FUPlot](figure/FUPlot.png) 
 
 ***
 
@@ -292,44 +307,47 @@ Maximum | 14.5
 #### Primary treatment
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Partial Penectomy | 48 (90.6)
-Pelvic Exenteration | 2 (3.8)
-Shave Biopsy | 1 (1.9)
-Total Penectomy | 2 (3.8)
+
+|                    | No. Cases|    %|
+|:-------------------|---------:|----:|
+|Partial Penectomy   |      48.0| 90.6|
+|Pelvic Exenteration |       2.0|  3.8|
+|Shave Biopsy        |       1.0|  1.9|
+|Total Penectomy     |       2.0|  3.8|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveTreatment](figure/DescriptiveTreatment.png) 
+![plot of chunk TreatmentPlot](figure/TreatmentPlot.png) 
 
 ***
 
 #### Adjuvant chemotherapy
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-No | 40 (87)
-Yes | 6 (13)
+
+|    | No. Cases|  %|
+|:---|---------:|--:|
+|No  |        40| 87|
+|Yes |         6| 13|
 
 *No. missing cases: 7*
 
-![plot of chunk DescriptiveAdjuvantChemo](figure/DescriptiveAdjuvantChemo.png) 
+![plot of chunk ChemoPlot](figure/ChemoPlot.png) 
 
 ***
 
 #### Adjuvant radiotherapy
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-No | 43 (87.8)
-Yes | 6 (12.2)
+
+|    | No. Cases|    %|
+|:---|---------:|----:|
+|No  |      43.0| 87.8|
+|Yes |       6.0| 12.2|
 
 *No. missing cases: 4*
 
-![plot of chunk DescriptiveAdjuvantRadio](figure/DescriptiveAdjuvantRadio.png) 
+![plot of chunk RadioPlot](figure/RadioPlot.png) 
 
 ***
 
@@ -337,131 +355,139 @@ Yes | 6 (12.2)
 #### Tumor recurrence
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-No | 40 (90.9)
-Yes | 4 (9.1)
+
+|    | No. Cases|    %|
+|:---|---------:|----:|
+|No  |      40.0| 90.9|
+|Yes |       4.0|  9.1|
 
 *No. missing cases: 9*
 
-![plot of chunk DescriptiveRecurrence](figure/DescriptiveRecurrence.png) 
+![plot of chunk RecurrencePlot](figure/RecurrencePlot.png) 
 
 ***
 
 #### Time from primary treatment to tumor recurrence
 
 
-Statistics | Value
---- | :---:
-Mean | 20.5
-Standard Deviation | 23.7
-Median | 13.3
-Interquartile Range | 18
-Minimum | 1
-Maximum | 54.4
+
+|Statistics          |Values |
+|:-------------------|:------|
+|Mean                |20.5   |
+|Standard Deviation  |23.7   |
+|Median              |13.3   |
+|Interquartile Range |20.8   |
+|Mininum             |1      |
+|Maximum             |54.4   |
 
 *No. missing cases: 49*
 
-![plot of chunk DescriptiveRecurrenceTime](figure/DescriptiveRecurrenceTime.png) 
+![plot of chunk RecurrenceTimePlot](figure/RecurrenceTimePlot.png) 
 
 ***
 
 #### Tumor progression
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-No | 29 (61.7)
-Yes | 18 (38.3)
+
+|    | No. Cases|    %|
+|:---|---------:|----:|
+|No  |      29.0| 61.7|
+|Yes |      18.0| 38.3|
 
 *No. missing cases: 6*
 
-![plot of chunk DescriptiveProgression](figure/DescriptiveProgression.png) 
+![plot of chunk ProgressionPlot](figure/ProgressionPlot.png) 
 
 ***
 
 #### Time from primary treatment to tumor progression
 
 
-Statistics | Value
---- | :---:
-Mean | 9.8
-Standard Deviation | 9
-Median | 6
-Interquartile Range | 18
-Minimum | 0.2
-Maximum | 31.4
+
+|Statistics          |Values |
+|:-------------------|:------|
+|Mean                |9.8    |
+|Standard Deviation  |9      |
+|Median              |6      |
+|Interquartile Range |13.3   |
+|Mininum             |0.2    |
+|Maximum             |31.4   |
 
 *No. missing cases: 39*
 
-![plot of chunk DescriptiveProgressionTime](figure/DescriptiveProgressionTime.png) 
+![plot of chunk ProgressionTimePlot](figure/ProgressionTimePlot.png) 
 
 ***
 
 #### Distant (visceral) metastasis
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-No | 26 (57.8)
-Yes | 19 (42.2)
+
+|    | No. Cases|    %|
+|:---|---------:|----:|
+|No  |      26.0| 57.8|
+|Yes |      19.0| 42.2|
 
 *No. missing cases: 8*
 
-![plot of chunk DescriptiveMets](figure/DescriptiveMets.png) 
+![plot of chunk MetsPlot](figure/MetsPlot.png) 
 
 ***
 
 #### Time from primary treatment to distant metastasis
 
 
-Statistics | Value
---- | :---:
-Mean | 9.8
-Standard Deviation | 7
-Median | 10.7
-Interquartile Range | 18
-Minimum | 1.3
-Maximum | 19.4
+
+|Statistics          |Values |
+|:-------------------|:------|
+|Mean                |9.8    |
+|Standard Deviation  |7      |
+|Median              |10.7   |
+|Interquartile Range |13.1   |
+|Mininum             |1.3    |
+|Maximum             |19.4   |
 
 *No. missing cases: 44*
 
-![plot of chunk DescriptiveMetsTime](figure/DescriptiveMetsTime.png) 
+![plot of chunk MetsTimePlot](figure/MetsTimePlot.png) 
 
 ***
 
 #### Patient's outcome
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Died of Disease | 11 (20.8)
-Died of other Causes | 15 (28.3)
-Alive with Disease | 15 (18.9)
-Alive with No Disease | 15 (30.2)
-No Follow-Up | 15 (1.9)
+
+|                      | No. Cases|    %|
+|:---------------------|---------:|----:|
+|Died of Disease       |      11.0| 20.8|
+|Died of other Causes  |      15.0| 28.3|
+|Alive with Disease    |      10.0| 18.9|
+|Alive with No Disease |      16.0| 30.2|
+|No Follow-Up          |       1.0|  1.9|
 
 *No. missing cases: 0*
 
-![plot of chunk DescriptiveOutcome](figure/DescriptiveOutcome.png) 
+![plot of chunk OutcomePlot](figure/OutcomePlot.png) 
 
 ***
 
 #### Total follow-up time (months)
 
 
-Statistics | Value
---- | :---:
-Mean | 37.2
-Standard Deviation | 43.5
-Median | 17.9
-Interquartile Range | 18
-Minimum | 0.1
-Maximum | 191.8
+
+|Statistics          |Values |
+|:-------------------|:------|
+|Mean                |37.2   |
+|Standard Deviation  |43.5   |
+|Median              |17.9   |
+|Interquartile Range |47.2   |
+|Mininum             |0.1    |
+|Maximum             |191.8  |
 
 *No. missing cases: 2*
 
-![plot of chunk DescriptiveTotalFollowUp](figure/DescriptiveTotalFollowUp.png) 
+![plot of chunk OutcomeTimePlot](figure/OutcomeTimePlot.png) 
 
 ***
 
@@ -469,18 +495,19 @@ Maximum | 191.8
 #### EGFR median score
 
 
-Statistics | Value
---- | :---:
-Mean | 8.3
-Standard Deviation | 6
-Median | 8.1
-Interquartile Range | 18
-Minimum | 0
-Maximum | 20
+
+|Statistics          |Values |
+|:-------------------|:------|
+|Mean                |8.3    |
+|Standard Deviation  |6      |
+|Median              |8.1    |
+|Interquartile Range |10.1   |
+|Mininum             |0      |
+|Maximum             |20     |
 
 *No. missing cases: 1*
 
-![plot of chunk DescriptiveEGFR.median](figure/DescriptiveEGFR.median.png) 
+![plot of chunk EGFRScorePlot](figure/EGFRScorePlot.png) 
 
 ***
 
@@ -489,15 +516,16 @@ Maximum | 20
 
 
 
-Categorical Level | No. Cases (%)
---- | :---:
-Negative EGFR | 16 (30.8)
-Low EGFR | 10 (19.2)
-High EGFR | 26 (50)
+
+|              | No. Cases|    %|
+|:-------------|---------:|----:|
+|Negative EGFR |      16.0| 30.8|
+|Low EGFR      |      10.0| 19.2|
+|High EGFR     |      26.0| 50.0|
 
 *No. missing cases: 1*
 
-![plot of chunk DescriptiveEGFR.categories](figure/DescriptiveEGFR.categories.png) 
+![plot of chunk EGFRCategoriesPlot](figure/EGFRCategoriesPlot.png) 
 
 ***
 
@@ -509,14 +537,15 @@ High EGFR | 26 (50)
 #### Patient's age and EGFR
 
 
-Statistics | Negative EGFR | Low EGFR | High EGFR
---- | :---: | :---: | :---:
-Mean | 64 | 67.8 | 65.8
-Standard Deviation | 12.2 | 11.9 | 12.4
-Median | 65.5 | 65 | 65
-Interquartile Range | 18 | 20 | 17.5
-Minimum | 38 | 56 | 39
-Maximum | 80 | 87 | 93
+
+|                    | Negative EGFR| Low EGFR| High EGFR|
+|:-------------------|-------------:|--------:|---------:|
+|Mean                |          64.0|     67.8|      65.8|
+|Standard Deviation  |          12.2|     11.9|      12.4|
+|Median              |          65.5|     65.0|      65.0|
+|Interquartile Range |          18.0|     20.0|      17.5|
+|Minimum             |          38.0|     56.0|      39.0|
+|Maximum             |          80.0|     87.0|      93.0|
 
 *No. missing cases: 0*
 
