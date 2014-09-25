@@ -20,7 +20,7 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 
 
 |Statistics          |Values |
-|:-------------------|:------|
+|:-------------------|:-----:|
 |Mean                |65.8   |
 |Standard Deviation  |12     |
 |Median              |65     |
@@ -39,7 +39,7 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 
 
 |                 | No. Cases|    %|
-|:----------------|---------:|----:|
+|:----------------|:--------:|:---:|
 |Caucasian        |      37.0| 69.8|
 |African-American |      12.0| 22.6|
 |Other            |       4.0|  7.5|
@@ -548,37 +548,37 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 </thead>
 <tbody>
 <tr class="center">
-  <th class="left">Mean</th>
+  <th class="center">Mean</th>
   <td>64.0</td>
   <td>67.8</td>
   <td>65.8</td>
 </tr>
  <tr class="center">
-  <th class="left">SD</th>
+  <th class="center">Standard Deviation</th>
   <td>12.2</td>
   <td>11.9</td>
   <td>12.4</td>
 </tr>
  <tr class="center">
-  <th class="left">Median</th>
+  <th class="center">Median</th>
   <td>65.5</td>
   <td>65.0</td>
   <td>65.0</td>
 </tr>
  <tr class="center">
-  <th class="left">IQR</th>
+  <th class="center">Interquartile Range</th>
   <td>18.0</td>
   <td>20.0</td>
   <td>17.5</td>
 </tr>
  <tr class="center">
-  <th class="left">Maximum</th>
+  <th class="center">Maximum</th>
   <td>80.0</td>
   <td>87.0</td>
   <td>93.0</td>
 </tr>
  <tr class="center">
-  <th class="left">Minimum</th>
+  <th class="center">Minimum</th>
   <td>38.0</td>
   <td>56.0</td>
   <td>39.0</td>
