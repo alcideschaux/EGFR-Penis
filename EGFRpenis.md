@@ -1,5 +1,5 @@
 # EGFR Expression in Penile Cancer
-Last update: ``Thu Sep 25 10:25:33 2014``
+Last update: ``Thu Sep 25 11:23:47 2014``
 
 
 ```r
@@ -537,15 +537,55 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Patient's age and EGFR
 
 
+<table frame="hsides" rules="groups">
+<thead>
+<tr class="center">
+  <th></th>
+  <th>Negative EGFR</th>
+  <th>Low EGFR</th>
+  <th>High EGFR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="center">
+  <th class="left">Mean</th>
+  <td>64.0</td>
+  <td>67.8</td>
+  <td>65.8</td>
+</tr>
+ <tr class="center">
+  <th class="left">SD</th>
+  <td>12.2</td>
+  <td>11.9</td>
+  <td>12.4</td>
+</tr>
+ <tr class="center">
+  <th class="left">Median</th>
+  <td>65.5</td>
+  <td>65.0</td>
+  <td>65.0</td>
+</tr>
+ <tr class="center">
+  <th class="left">IQR</th>
+  <td>18.0</td>
+  <td>20.0</td>
+  <td>17.5</td>
+</tr>
+ <tr class="center">
+  <th class="left">Maximum</th>
+  <td>80.0</td>
+  <td>87.0</td>
+  <td>93.0</td>
+</tr>
+ <tr class="center">
+  <th class="left">Minimum</th>
+  <td>38.0</td>
+  <td>56.0</td>
+  <td>39.0</td>
+</tr>
+</tbody>
+</table>
 
-|                    | Negative EGFR| Low EGFR| High EGFR|
-|:-------------------|-------------:|--------:|---------:|
-|Mean                |          64.0|     67.8|      65.8|
-|Standard Deviation  |          12.2|     11.9|      12.4|
-|Median              |          65.5|     65.0|      65.0|
-|Interquartile Range |          18.0|     20.0|      17.5|
-|Minimum             |          38.0|     56.0|      39.0|
-|Maximum             |          80.0|     87.0|      93.0|
 
 *No. missing cases: 0*
 
@@ -564,7 +604,7 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
   <th colspan="3">EGFR</th>
 </tr>
  <tr class="center">
-  <th></th>
+  <th>race</th>
   <th></th>
   <th>Negative EGFR</th>
   <th>Low EGFR</th>
@@ -573,57 +613,63 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 </thead>
 <tbody>
 <tr class="center">
-  <th class="left">Age</th>
-  <th class="left">Mean</th>
-  <td>64.00</td>
-  <td>67.80</td>
-  <td>65.85</td>
+  <th class="left">Caucasian</th>
+  <th class="left">Count</th>
+  <td>12</td>
+  <td> 8</td>
+  <td>17</td>
 </tr>
  <tr class="center">
   <th class="left">&nbsp;</th>
-  <th class="left">SD</th>
-  <td>12.18</td>
-  <td>11.92</td>
-  <td>12.42</td>
+  <th class="left">Percent</th>
+  <td>32.4</td>
+  <td>21.6</td>
+  <td>45.9</td>
+</tr>
+ <tr class="center">
+  <th class="left">African-American</th>
+  <th class="left">Count</th>
+  <td> 3</td>
+  <td> 1</td>
+  <td> 7</td>
 </tr>
  <tr class="center">
   <th class="left">&nbsp;</th>
-  <th class="left">Median</th>
-  <td>65.50</td>
-  <td>65.00</td>
-  <td>65.00</td>
+  <th class="left">Percent</th>
+  <td>25.0</td>
+  <td> 8.3</td>
+  <td>58.3</td>
+</tr>
+ <tr class="center">
+  <th class="left">Other</th>
+  <th class="left">Count</th>
+  <td> 1</td>
+  <td> 1</td>
+  <td> 2</td>
 </tr>
  <tr class="center">
   <th class="left">&nbsp;</th>
-  <th class="left">IQR</th>
-  <td>18.00</td>
-  <td>20.00</td>
-  <td>17.50</td>
+  <th class="left">Percent</th>
+  <td>25.0</td>
+  <td>25.0</td>
+  <td>50.0</td>
+</tr>
+ <tr class="center">
+  <th class="left">All</th>
+  <th class="left">Count</th>
+  <td>16</td>
+  <td>10</td>
+  <td>26</td>
 </tr>
  <tr class="center">
   <th class="left">&nbsp;</th>
-  <th class="left">Maximum</th>
-  <td>80.00</td>
-  <td>87.00</td>
-  <td>93.00</td>
-</tr>
- <tr class="center">
-  <th class="left">&nbsp;</th>
-  <th class="left">Minimum</th>
-  <td>38.00</td>
-  <td>56.00</td>
-  <td>39.00</td>
+  <th class="left">Percent</th>
+  <td>30.2</td>
+  <td>18.9</td>
+  <td>49.1</td>
 </tr>
 </tbody>
 </table>
-
-***
-
-Categorical Level | Negative EGFR | Low EGFR | High EGFR
---- | :---: | :---: | :---:
-Caucasian | 12 (32.4) | 8 (21.6) | 17 (45.9)
-African-American | 3 (27.3) | 1 (9.1) | 7 (63.6)
-Other | 1 (25) | 1 (25) | 2 (50)
 
 *No. missing cases: 0*
 
