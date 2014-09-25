@@ -1,21 +1,22 @@
+---
+output: html_document
+---
 # EGFR Expression in Penile Cancer
 Last update: ```r {date()}```
 
 ```{r global_options}
 library(knitr)
-opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = FALSE, fig.width = 9, results = "asis")
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 9, results = "asis")
 ```
 
 ```{r DataSet}
 # Loading the libraries and functions that will be used
 source("RFUN/StandardAnalysis3.R")
-source("RFUN/SurvivalPlot.R")
 source("RFUN/NicePlots.R")
 source("RFUN/NiceTables.R")
 library(foreign) # For reading STATA data
 library(survival)
 library(plyr) # for revalue and rename
-library(gmodels) # for CrossTable
 # Loading the STATA dataset
 penis.full <- read.dta("../penile tma 6-11-14 stata 12.dta", convert.underscore = TRUE)
 # Selecting clinicopathologic variables from the full dataset
@@ -65,9 +66,14 @@ attach(penis.data)
 #### Patient's age
 `r var <- age; t <- "Patient's Age, years"`
 
-```{r AgeTable}
-table.descriptive(var)
-```
+Statistics | Value
+--- | :---:
+Mean | `r round(mean(var, na.rm = TRUE), digits = 1)`
+Standard deviation | `r round(sd(var, na.rm = TRUE), digits = 1)`
+Median | `r round(median(var, na.rm = TRUE), digits = 1)`
+Interquartile range | `r round(IQR(var, na.rm = TRUE), digits = 1)`
+Minimum | `r min(var, na.rm = TRUE)`
+Maximum | `r max(var, na.rm = TRUE)`
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -80,9 +86,11 @@ descriptive.numeric(var, label = t)
 #### Patient's race
 `r var <- race; var.t <- table(var); t <- "Patient's Race"`
 
-```{r RaceTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -97,9 +105,15 @@ descriptive.plot(var, col = nice.colors, ylim = c(0, 40), xlab = t)
 #### Histologic subtype
 `r var <- subtype; var.t <- table(var)`
 
-```{r SubtypeTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[4]` | `r var.t[4]` (`r round(var.t[4]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[5]` | `r var.t[5]` (`r round(var.t[5]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[6]` | `r var.t[6]` (`r round(var.t[6]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[7]` | `r var.t[7]` (`r round(var.t[7]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -112,9 +126,11 @@ descriptive.plot.h(var, left = 10, col = rainbow(7), xlim = c(0, 40))
 #### Anatomical site
 `r var <- site; var.t <- table(var); t <- "Anatomical Site"`
 
-```{r SiteTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -127,9 +143,13 @@ descriptive.plot(var, col = rainbow(4), ylim = c(0, 35), xlab = t)
 #### Anatomical level
 `r var <- level; var.t <- table(var)`
 
-```{r LevelTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[4]` | `r var.t[4]` (`r round(var.t[4]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[5]` | `r var.t[5]` (`r round(var.t[5]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -142,9 +162,11 @@ descriptive.plot.h(var, left = 14, col = rainbow(5), xlim = c(0, 25))
 #### Histologic grade
 `r var <- grade; var.t <- table(var); t <- "Histologic Grade"`
 
-```{r GradeTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -157,9 +179,11 @@ descriptive.plot(var, col = nice.colors, ylim = c(0, 26), xlab = t)
 #### Tumor thickness
 `r var <- thick; var.t <- table(var); t <- "Tumor Thickness"`
 
-```{r ThickTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -172,9 +196,10 @@ descriptive.plot(var, col = nice.colors, ylim = c(0, 25), xlab = t)
 #### Tumor invasion of penile urethra
 `r var <- urethra; var.t <- table(var); t <- "Invasion of Penile Urethra"`
 
-```{r UrethraTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -187,9 +212,10 @@ descriptive.plot(var, col = nice.colors, ylim = c(0, 50), xlab = t)
 #### Lymphovascular invasion
 `r var <- lvi; var.t <- table(var); t <- "Lymphovascular Invasion"`
 
-```{r LVITable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -202,9 +228,10 @@ descriptive.plot(var, col = nice.colors, ylim = c(0, 40), xlab = t)
 #### Perineural invasion
 `r var <- pni; var.t <- table(var); t <- "Perineural Invasion"`
 
-```{r PNITable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -217,9 +244,10 @@ descriptive.plot(var, col = nice.colors, ylim = c(0, 40), xlab = t)
 #### HPV infection
 `r var <- hpv.pos; var.t <- table(var); t <- "HPV Infection"`
 
-```{r HPVTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -232,9 +260,14 @@ descriptive.plot(var, col = nice.colors, xlab = t, ylim = c(0, 50))
 #### Pathologic pT stage
 `r var <- tnm.tumor; var.t <- table(var); t <- "pT Stage"`
 
-```{r pTTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[4]` | `r var.t[4]` (`r round(var.t[4]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[5]` | `r var.t[5]` (`r round(var.t[5]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[6]` | `r var.t[6]` (`r round(var.t[6]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -247,9 +280,12 @@ descriptive.plot(var, col = rainbow(6), ylim = c(0, 25), xlab = t)
 #### Pathologic pN stage
 `r var <- tnm.nodes; var.t <- table(var); t <- "pN Stage"`
 
-```{r pNTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[4]` | `r var.t[4]` (`r round(var.t[4]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -262,9 +298,14 @@ descriptive.plot(var, col = rainbow(4), ylim = c(0, 15), xlab = t)
 #### Clinical stage
 `r var <- stage; var.t <- table(var); t <- "Clinical Stage"`
 
-```{r StageTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[4]` | `r var.t[4]` (`r round(var.t[4]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[5]` | `r var.t[5]` (`r round(var.t[5]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[6]` | `r var.t[6]` (`r round(var.t[6]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -277,9 +318,10 @@ descriptive.plot(var, col = rainbow(6), ylim = c(0, 20), xlab = t)
 #### Inguinal lymph node dissection
 `r var <- dissection.type; var.t <- table(var); t <- "Clinical Stage"`
 
-```{r DissectionTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -292,9 +334,10 @@ descriptive.plot(var, col = nice.colors, ylim = c(0, 15), xlab = t)
 #### Positive (metastatic) inguinal lymph nodes
 `r var <- nodes; var.t <- table(var); t <- "Metastatic Inguinal Lymph Nodes"`
 
-```{r LNTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -307,9 +350,14 @@ descriptive.plot(var, col = nice.colors, ylim = c(0, 20), xlab = t)
 #### Time from treatment to lymphadenectomy
 `r var <- date.lymph.mo; t <- "Time to Lymphadenectomy, Months"`
 
-```{r FUTable}
-table.descriptive(date.lymph.mo)
-```
+Statistics | Value
+--- | :---:
+Mean | `r round(mean(var, na.rm = TRUE), digits = 1)`
+Standard deviation | `r round(sd(var, na.rm = TRUE), digits = 1)`
+Median | `r round(median(var, na.rm = TRUE), digits = 1)`
+Interquartile range | `r round(IQR(var, na.rm = TRUE), digits = 1)`
+Minimum | `r min(var, na.rm = TRUE)`
+Maximum | `r max(var, na.rm = TRUE)`
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -323,9 +371,12 @@ descriptive.numeric(var, label = t)
 #### Primary treatment
 `r var <- treatment; var.t <- table(var); t <- "Primary Treatment"`
 
-```{r TreatmentTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[4]` | `r var.t[4]` (`r round(var.t[4]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -338,9 +389,10 @@ descriptive.plot(var, col = rainbow(4), xlab = t, ylim = c(0, 55))
 #### Adjuvant chemotherapy
 `r var <- chemo; var.t <- table(var); t <- "Adjuvant Chemotherapy"`
 
-```{r ChemoTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -353,9 +405,10 @@ descriptive.plot(var, col = nice.colors, xlab = t, ylim = c(0, 45))
 #### Adjuvant radiotherapy
 `r var <- radio; var.t <- table(var); t <- "Adjuvant Radiotherapy"`
 
-```{r RadioTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -369,9 +422,10 @@ descriptive.plot(var, col = nice.colors, xlab = t, ylim = c(0, 50))
 #### Tumor recurrence
 `r var <- recurrence; var.t <- table(var); t <- "Tumor Recurrence"`
 
-```{r RecurrenceTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -384,9 +438,14 @@ descriptive.plot(var, col = nice.colors, xlab = t, ylim = c(0, 45))
 #### Time from primary treatment to tumor recurrence
 `r var <- date.recurrence.mo; t <- "Time to Tumor Recurrence, Months"`
 
-```{r RecurrenceTimeTable}
-table.descriptive(var)
-```
+Statistics | Value
+--- | :---:
+Mean | `r round(mean(var, na.rm = TRUE), digits = 1)`
+Standard deviation | `r round(sd(var, na.rm = TRUE), digits = 1)`
+Median | `r round(median(var, na.rm = TRUE), digits = 1)`
+Interquartile range | `r round(IQR(var, na.rm = TRUE), digits = 1)`
+Minimum | `r min(var, na.rm = TRUE)`
+Maximum | `r max(var, na.rm = TRUE)`
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -399,9 +458,10 @@ descriptive.numeric(var, label = t)
 #### Tumor progression
 `r var <- progression; var.t <- table(var); t <- "Tumor Progression"`
 
-```{r ProgressionTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -414,9 +474,14 @@ descriptive.plot(var, col = nice.colors, xlab = t, ylim = c(0, 35))
 #### Time from primary treatment to tumor progression
 `r var <- date.progression.mo; t <- "Time to Tumor Progression, Months"`
 
-```{r ProgressionTimeTable}
-table.descriptive(var)
-```
+Statistics | Value
+--- | :---:
+Mean | `r round(mean(var, na.rm = TRUE), digits = 1)`
+Standard deviation | `r round(sd(var, na.rm = TRUE), digits = 1)`
+Median | `r round(median(var, na.rm = TRUE), digits = 1)`
+Interquartile range | `r round(IQR(var, na.rm = TRUE), digits = 1)`
+Minimum | `r min(var, na.rm = TRUE)`
+Maximum | `r max(var, na.rm = TRUE)`
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -429,9 +494,10 @@ descriptive.numeric(var, label = t)
 #### Distant (visceral) metastasis
 `r var <- mets; var.t <- table(var); t <- "Distant Metastasis"`
 
-```{r MetsTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -444,9 +510,14 @@ descriptive.plot(var, col = nice.colors, xlab = t, ylim = c(0, 30))
 #### Time from primary treatment to distant metastasis
 `r var <- date.met.mo; t <- "Time to Distant Metastasis, Months"`
 
-```{r MetsTimeTable}
-table.descriptive(var)
-```
+Statistics | Value
+--- | :---:
+Mean | `r round(mean(var, na.rm = TRUE), digits = 1)`
+Standard deviation | `r round(sd(var, na.rm = TRUE), digits = 1)`
+Median | `r round(median(var, na.rm = TRUE), digits = 1)`
+Interquartile range | `r round(IQR(var, na.rm = TRUE), digits = 1)`
+Minimum | `r min(var, na.rm = TRUE)`
+Maximum | `r max(var, na.rm = TRUE)`
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -459,9 +530,13 @@ descriptive.numeric(var, label = t)
 #### Patient's outcome
 `r var <- outcome; var.t <- table(var)`
 
-```{r OutcomeTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[4]` | `r var.t[4]` (`r round(var.t[4]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[5]` | `r var.t[5]` (`r round(var.t[5]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -474,9 +549,14 @@ descriptive.plot.h(var, left = 9.5, col = rainbow(5), xlim = c(0, 20))
 #### Total follow-up time (months)
 `r var <- fu.last.mo; t <- "Follow-Up, Months"`
 
-```{r OutcomeTimeTable}
-table.descriptive(var)
-```
+Statistics | Value
+--- | :---:
+Mean | `r round(mean(var, na.rm = TRUE), digits = 1)`
+Standard deviation | `r round(sd(var, na.rm = TRUE), digits = 1)`
+Median | `r round(median(var, na.rm = TRUE), digits = 1)`
+Interquartile range | `r round(IQR(var, na.rm = TRUE), digits = 1)`
+Minimum | `r min(var, na.rm = TRUE)`
+Maximum | `r max(var, na.rm = TRUE)`
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -490,9 +570,14 @@ descriptive.numeric(var, label = t)
 #### EGFR median score
 `r var <- egfr.median.score; t <- "Median EGFR Score"`
 
-```{r EGFRScoreTable}
-table.descriptive(var)
-```
+Statistics | Value
+--- | :---:
+Mean | `r round(mean(var, na.rm = TRUE), digits = 1)`
+Standard deviation | `r round(sd(var, na.rm = TRUE), digits = 1)`
+Median | `r round(median(var, na.rm = TRUE), digits = 1)`
+Interquartile range | `r round(IQR(var, na.rm = TRUE), digits = 1)`
+Minimum | `r min(var, na.rm = TRUE)`
+Maximum | `r max(var, na.rm = TRUE)`
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -512,9 +597,11 @@ EGFR <- cut(egfr.median.score, breaks = c(-Inf, 4, 8, Inf),
 
 `r var <- EGFR; var.t <- table(var); t <- "EGFR Expression"`
 
-```{r EGFRCategoriesTable}
-table.proportions(var)
-```
+Categorical Level | No. Cases (%)
+--- | :---:
+`r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -588,9 +675,14 @@ max.high <- function(x){
 #### Patient's age and EGFR
 `r var <- age; t <- "Patient's Age, years"`
 
-```{r}
-table.compare(var, EGFR)
-```
+Statistics | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+Mean | `r mean.neg(var)` | `r mean.low(var)` | `r mean.high(var)`
+Standard deviation | `r sd.neg(var)` | `r sd.low(var)` | `r sd.high(var)`
+Median | `r median.neg(var)` | `r median.low(var)` | `r median.high(var)`
+Interquartile range | `r iqr.neg(var)` | `r iqr.low(var)` | `r iqr.high(var)`
+Minimum | `r min.neg(var)` | `r min.low(var)` | `r min.high(var)`
+Maximum | `r max.neg(var)` | `r max.low(var)` | `r max.high(var)`
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -714,7 +806,7 @@ Categorical Level | Negative EGFR | Low EGFR | High EGFR
 
 ```{r EGFR.thick}
 compare.mosaic(var, EGFR, main = t, las = 1)
-descriptive.plot.beside(EGFR, var, xlab = t, ylim = c(0, 15))
+descriptive.plot.beside(EGFR, var, xlab = t, ylim = c(0, 17))
 ```
 
 ***
@@ -927,7 +1019,7 @@ descriptive.plot.beside(EGFR, var, xlab = t, ylim = c(0, 22))
 
 ***
 
-#### Cancer-related mortalitynd EGFR
+#### Cancer-related mortality and EGFR
 `r var <- died.disease; var.t <- table(var, EGFR); t <- "Cancer-Related Mortality"`
 
 Categorical Level | Negative EGFR | Low EGFR | High EGFR
@@ -987,7 +1079,102 @@ kable(p.table, format = "markdown")
 ***
 
 ## Survival Analysis
-This section, currently under preparation, will include survival plots drawn using the Kapplan-Meier method and compared using the Mantel-Cox test.
+This section includes survival plots drawn using the Kapplan-Meier method and compared using the Mantel-Cox test, for each of the following outcomes: tumor recurrence, tumor progression, distant metastasis, overall mortality, and cancer-related mortality.
+
+### Tumor recurrence
+```{r DataRecurrence}
+data.recurrence <- ifelse(is.na(date.recurrence.mo), c("No"), c("Yes"))
+data.recurrence <- as.factor(data.recurrence)
+```
+
+`r var <- data.recurrence; var.t <- table(var, EGFR)`
+
+Follow-up on tumor recurrence | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+`r levels(var)[1]` | `r var.t[1, 1]` (`r round(var.t[1, 1]/sum(var.t[1, ]/100), digits = 1)`) | `r var.t[1, 2]` (`r round(var.t[1, 2]/sum(var.t[1, ]/100), digits = 1)`) | `r var.t[1, 3]` (`r round(var.t[1, 3]/sum(var.t[1, ]/100), digits = 1)`)
+`r levels(var)[2]` | `r var.t[2, 1]` (`r round(var.t[2, 1]/sum(var.t[2, ]/100), digits = 1)`) | `r var.t[2, 2]` (`r round(var.t[2, 2]/sum(var.t[2, ]/100), digits = 1)`) | `r var.t[2, 3]` (`r round(var.t[2, 3]/sum(var.t[2, ]/100), digits = 1)`)
+
+```{r OutcomeRecurrence, fig.height = 7}
+survival.plot(x = EGFR, fu = date.recurrence.mo, outcome = recurrence, ylim = c(0, 1),
+              title = "EGFR and Tumor Recurrence",
+              levels = c("Low EGFR", "High EGFR"))
+```
+
+### Tumor progression
+```{r DataProgression}
+data.progression <- ifelse(is.na(date.progression.mo), c("No"), c("Yes"))
+data.progression <- as.factor(data.progression)
+```
+
+`r var <- data.progression; var.t <- table(var, EGFR)`
+
+Follow-up on tumor progression | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+`r levels(var)[1]` | `r var.t[1, 1]` (`r round(var.t[1, 1]/sum(var.t[1, ]/100), digits = 1)`) | `r var.t[1, 2]` (`r round(var.t[1, 2]/sum(var.t[1, ]/100), digits = 1)`) | `r var.t[1, 3]` (`r round(var.t[1, 3]/sum(var.t[1, ]/100), digits = 1)`)
+`r levels(var)[2]` | `r var.t[2, 1]` (`r round(var.t[2, 1]/sum(var.t[2, ]/100), digits = 1)`) | `r var.t[2, 2]` (`r round(var.t[2, 2]/sum(var.t[2, ]/100), digits = 1)`) | `r var.t[2, 3]` (`r round(var.t[2, 3]/sum(var.t[2, ]/100), digits = 1)`)
+
+```{r OutcomeProgression, fig.height = 7}
+survival.plot(x = EGFR, fu = date.progression.mo, outcome = progression, ylim = c(0, 1),
+              title = "EGFR and Tumor Progression",
+              levels = c("Negative EGFR", "High EGFR"))
+```
+
+### Distant metastasis
+```{r DataMets}
+data.met <- ifelse(is.na(date.met.mo), c("No"), c("Yes"))
+data.met <- as.factor(data.met)
+```
+
+`r var <- data.met; var.t <- table(var, EGFR)`
+
+Follow-up on distant metastasis | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+`r levels(var)[1]` | `r var.t[1, 1]` (`r round(var.t[1, 1]/sum(var.t[1, ]/100), digits = 1)`) | `r var.t[1, 2]` (`r round(var.t[1, 2]/sum(var.t[1, ]/100), digits = 1)`) | `r var.t[1, 3]` (`r round(var.t[1, 3]/sum(var.t[1, ]/100), digits = 1)`)
+`r levels(var)[2]` | `r var.t[2, 1]` (`r round(var.t[2, 1]/sum(var.t[2, ]/100), digits = 1)`) | `r var.t[2, 2]` (`r round(var.t[2, 2]/sum(var.t[2, ]/100), digits = 1)`) | `r var.t[2, 3]` (`r round(var.t[2, 3]/sum(var.t[2, ]/100), digits = 1)`)
+
+```{r OutcomeMetastasis, fig.height = 7}
+survival.plot(x = EGFR, fu = date.met.mo, outcome = mets, ylim = c(0, 1),
+              title = "EGFR and Distant Metastasis",
+              levels = c("Negative EGFR", "High EGFR"))
+```
+
+### Overall mortality
+```{r DataDead}
+data.dead <- ifelse(is.na(fu.last.mo), c("No"), c("Yes"))
+data.dead <- as.factor(data.dead)
+```
+
+`r var <- data.dead; var.t <- table(var, EGFR)`
+
+Follow-up on overall mortality | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+`r levels(var)[1]` | `r var.t[1, 1]` (`r round(var.t[1, 1]/sum(var.t[1, ]/100), digits = 1)`) | `r var.t[1, 2]` (`r round(var.t[1, 2]/sum(var.t[1, ]/100), digits = 1)`) | `r var.t[1, 3]` (`r round(var.t[1, 3]/sum(var.t[1, ]/100), digits = 1)`)
+`r levels(var)[2]` | `r var.t[2, 1]` (`r round(var.t[2, 1]/sum(var.t[2, ]/100), digits = 1)`) | `r var.t[2, 2]` (`r round(var.t[2, 2]/sum(var.t[2, ]/100), digits = 1)`) | `r var.t[2, 3]` (`r round(var.t[2, 3]/sum(var.t[2, ]/100), digits = 1)`)
+
+```{r OutcomeDeath, fig.height = 7}
+survival.plot(x = EGFR, fu = fu.last.mo, outcome = dead, ylim = c(0, 1),
+              title = "EGFR and Overall Mortality",
+              levels = c("Negative EGFR", "Low EGFR", "High EGFR"))
+```
+
+### Cancer-specific mortality
+```{r DataDOD}
+data.dod <- ifelse(is.na(fu.last.mo), c("No"), c("Yes"))
+data.dod <- as.factor(data.dod)
+```
+
+`r var <- data.dod; var.t <- table(var, EGFR)`
+
+Follow-up on cancer-specific mortality | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+`r levels(var)[1]` | `r var.t[1, 1]` (`r round(var.t[1, 1]/sum(var.t[1, ]/100), digits = 1)`) | `r var.t[1, 2]` (`r round(var.t[1, 2]/sum(var.t[1, ]/100), digits = 1)`) | `r var.t[1, 3]` (`r round(var.t[1, 3]/sum(var.t[1, ]/100), digits = 1)`)
+`r levels(var)[2]` | `r var.t[2, 1]` (`r round(var.t[2, 1]/sum(var.t[2, ]/100), digits = 1)`) | `r var.t[2, 2]` (`r round(var.t[2, 2]/sum(var.t[2, ]/100), digits = 1)`) | `r var.t[2, 3]` (`r round(var.t[2, 3]/sum(var.t[2, ]/100), digits = 1)`)
+
+```{r OutcomeDOD, fig.height = 7}
+survival.plot(x = EGFR, fu = fu.last.mo, outcome = died.disease, ylim = c(0.4, 1),
+              title = "EGFR and Cancer-Related Death",
+              levels = c("Negative EGFR", "Low EGFR", "High EGFR"))
+```
 
 ***
 

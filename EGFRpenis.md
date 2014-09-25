@@ -1,10 +1,13 @@
+---
+output: html_document
+---
 # EGFR Expression in Penile Cancer
-Last update: ``Thu Sep 25 11:23:47 2014``
+Last update: ``Thu Sep 25 16:34:28 2014``
 
 
 ```r
 library(knitr)
-opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 9, results = "asis")
 ```
 
 
@@ -18,15 +21,14 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Patient's age
 
 
-
-|Statistics          |Values |
-|:-------------------|:-----:|
-|Mean                |65.8   |
-|Standard Deviation  |12     |
-|Median              |65     |
-|Interquartile Range |18     |
-|Mininum             |38     |
-|Maximum             |93     |
+Statistics | Value
+--- | :---:
+Mean | 65.8
+Standard deviation | 12
+Median | 65
+Interquartile range | 18
+Minimum | 38
+Maximum | 93
 
 *No. missing cases: 0*
 
@@ -37,12 +39,11 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Patient's race
 
 
-
-|                 | No. Cases|    %|
-|:----------------|:--------:|:---:|
-|Caucasian        |      37.0| 69.8|
-|African-American |      12.0| 22.6|
-|Other            |       4.0|  7.5|
+Categorical Level | No. Cases (%)
+--- | :---:
+Caucasian | 37 (69.8)
+African-American | 12 (22.6)
+Other | 4 (7.5)
 
 *No. missing cases: 0*
 
@@ -55,16 +56,15 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Histologic subtype
 
 
-
-|          | No. Cases|    %|
-|:---------|---------:|----:|
-|Basaloid  |       6.0| 11.3|
-|Others    |       2.0|  3.8|
-|Papillary |       2.0|  3.8|
-|Usual     |      33.0| 62.3|
-|Verrucous |       3.0|  5.7|
-|Warty     |       5.0|  9.4|
-|WB        |       2.0|  3.8|
+Categorical Level | No. Cases (%)
+--- | :---:
+Basaloid | 6 (11.3)
+Others | 2 (3.8)
+Papillary | 2 (3.8)
+Usual | 33 (62.3)
+Verrucous | 3 (5.7)
+Warty | 5 (9.4)
+WB | 2 (3.8)
 
 *No. missing cases: 0*
 
@@ -75,13 +75,11 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Anatomical site
 
 
-
-|               | No. Cases|    %|
-|:--------------|---------:|----:|
-|Glans          |      28.0| 52.8|
-|Inner Foreskin |       1.0|  1.9|
-|Shaft          |      16.0| 30.2|
-|Urethra        |       8.0| 15.1|
+Categorical Level | No. Cases (%)
+--- | :---:
+Glans | 28 (52.8)
+Inner Foreskin | 1 (1.9)
+Shaft | 16 (30.2)
 
 *No. missing cases: 0*
 
@@ -92,14 +90,13 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Anatomical level
 
 
-
-|               | No. Cases|    %|
-|:--------------|---------:|----:|
-|Lamina Propria |      20.0| 38.5|
-|CS/Dartos      |      15.0| 28.8|
-|CC/Skin        |      10.0| 19.2|
-|Urethra        |       6.0| 11.5|
-|Other          |       1.0|  1.9|
+Categorical Level | No. Cases (%)
+--- | :---:
+Lamina Propria | 20 (38.5)
+CS/Dartos | 15 (28.8)
+CC/Skin | 10 (19.2)
+Urethra | 6 (11.5)
+Other | 1 (1.9)
 
 *No. missing cases: 1*
 
@@ -110,12 +107,11 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Histologic grade
 
 
-
-|        | No. Cases|    %|
-|:-------|---------:|----:|
-|Grade 1 |      11.0| 20.8|
-|Grade 2 |      24.0| 45.3|
-|Grade 3 |      18.0| 34.0|
+Categorical Level | No. Cases (%)
+--- | :---:
+Grade 1 | 11 (20.8)
+Grade 2 | 24 (45.3)
+Grade 3 | 18 (34)
 
 *No. missing cases: 0*
 
@@ -126,12 +122,11 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Tumor thickness
 
 
-
-|                | No. Cases|    %|
-|:---------------|---------:|----:|
-|Less than 5 mm  |      21.0| 39.6|
-|5-10 mm         |      16.0| 30.2|
-|More than 10 mm |      16.0| 30.2|
+Categorical Level | No. Cases (%)
+--- | :---:
+Less than 5 mm | 21 (39.6)
+5-10 mm | 16 (30.2)
+More than 10 mm | 16 (30.2)
 
 *No. missing cases: 0*
 
@@ -142,11 +137,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Tumor invasion of penile urethra
 
 
-
-|    | No. Cases|    %|
-|:---|---------:|----:|
-|No  |      43.0| 81.1|
-|Yes |      10.0| 18.9|
+Categorical Level | No. Cases (%)
+--- | :---:
+No | 43 (81.1)
+Yes | 10 (18.9)
 
 *No. missing cases: 0*
 
@@ -157,11 +151,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Lymphovascular invasion
 
 
-
-|    | No. Cases|    %|
-|:---|---------:|----:|
-|No  |      36.0| 67.9|
-|Yes |      17.0| 32.1|
+Categorical Level | No. Cases (%)
+--- | :---:
+No | 36 (67.9)
+Yes | 17 (32.1)
 
 *No. missing cases: 0*
 
@@ -172,11 +165,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Perineural invasion
 
 
-
-|    | No. Cases|    %|
-|:---|---------:|----:|
-|No  |      36.0| 67.9|
-|Yes |      17.0| 32.1|
+Categorical Level | No. Cases (%)
+--- | :---:
+No | 36 (67.9)
+Yes | 17 (32.1)
 
 *No. missing cases: 0*
 
@@ -187,11 +179,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### HPV infection
 
 
-
-|    | No. Cases|    %|
-|:---|---------:|----:|
-|No  |      45.0| 84.9|
-|Yes |       8.0| 15.1|
+Categorical Level | No. Cases (%)
+--- | :---:
+No | 45 (84.9)
+Yes | 8 (15.1)
 
 *No. missing cases: 0*
 
@@ -202,15 +193,14 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Pathologic pT stage
 
 
-
-|    | No. Cases|    %|
-|:---|---------:|----:|
-|Ta  |       1.0|  1.9|
-|T1a |      19.0| 35.8|
-|T1b |       1.0|  1.9|
-|T2  |      22.0| 41.5|
-|T3  |       9.0| 17.0|
-|T4  |       1.0|  1.9|
+Categorical Level | No. Cases (%)
+--- | :---:
+Ta | 1 (1.9)
+T1a | 19 (35.8)
+T1b | 1 (1.9)
+T2 | 22 (41.5)
+T3 | 9 (17)
+T4 | 1 (1.9)
 
 *No. missing cases: 0*
 
@@ -221,13 +211,12 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Pathologic pN stage
 
 
-
-|    | No. Cases|    %|
-|:---|---------:|----:|
-|pN0 |      13.0| 44.8|
-|pN1 |       5.0| 17.2|
-|pN2 |       4.0| 13.8|
-|pN3 |       7.0| 24.1|
+Categorical Level | No. Cases (%)
+--- | :---:
+pN0 | 13 (44.8)
+pN1 | 5 (17.2)
+pN2 | 4 (13.8)
+pN3 | 7 (24.1)
 
 *No. missing cases: 24*
 
@@ -238,15 +227,14 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Clinical stage
 
 
-
-|           | No. Cases|    %|
-|:----------|---------:|----:|
-|Stage 0    |       1.0|  1.9|
-|Stage I    |      18.0| 34.0|
-|Stage II   |      18.0| 34.0|
-|Stage IIIa |       5.0|  9.4|
-|Stage IIIb |       2.0|  3.8|
-|Stage IV   |       9.0| 17.0|
+Categorical Level | No. Cases (%)
+--- | :---:
+Stage 0 | 1 (1.9)
+Stage I | 18 (34)
+Stage II | 18 (34)
+Stage IIIa | 5 (9.4)
+Stage IIIb | 2 (3.8)
+Stage IV | 9 (17)
 
 *No. missing cases: 0*
 
@@ -257,11 +245,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Inguinal lymph node dissection
 
 
-
-|              | No. Cases|    %|
-|:-------------|---------:|----:|
-|Prophylactic  |      10.0| 45.5|
-|Post-Surgical |      12.0| 54.5|
+Categorical Level | No. Cases (%)
+--- | :---:
+Prophylactic | 10 (45.5)
+Post-Surgical | 12 (54.5)
 
 *No. missing cases: 31*
 
@@ -272,11 +259,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Positive (metastatic) inguinal lymph nodes
 
 
-
-|         | No. Cases|    %|
-|:--------|---------:|----:|
-|Negative |      13.0| 44.8|
-|Positive |      16.0| 55.2|
+Categorical Level | No. Cases (%)
+--- | :---:
+Negative | 13 (44.8)
+Positive | 16 (55.2)
 
 *No. missing cases: 24*
 
@@ -287,15 +273,14 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Time from treatment to lymphadenectomy
 
 
-
-|Statistics          |Values |
-|:-------------------|:------|
-|Mean                |2.2    |
-|Standard Deviation  |3.8    |
-|Median              |1      |
-|Interquartile Range |1.7    |
-|Mininum             |0      |
-|Maximum             |14.5   |
+Statistics | Value
+--- | :---:
+Mean | 2.2
+Standard deviation | 3.8
+Median | 1
+Interquartile range | 1.7
+Minimum | 0
+Maximum | 14.5
 
 *No. missing cases: 31*
 
@@ -307,13 +292,12 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Primary treatment
 
 
-
-|                    | No. Cases|    %|
-|:-------------------|---------:|----:|
-|Partial Penectomy   |      48.0| 90.6|
-|Pelvic Exenteration |       2.0|  3.8|
-|Shave Biopsy        |       1.0|  1.9|
-|Total Penectomy     |       2.0|  3.8|
+Categorical Level | No. Cases (%)
+--- | :---:
+Partial Penectomy | 48 (90.6)
+Pelvic Exenteration | 2 (3.8)
+Shave Biopsy | 1 (1.9)
+Total Penectomy | 2 (3.8)
 
 *No. missing cases: 0*
 
@@ -324,11 +308,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Adjuvant chemotherapy
 
 
-
-|    | No. Cases|  %|
-|:---|---------:|--:|
-|No  |        40| 87|
-|Yes |         6| 13|
+Categorical Level | No. Cases (%)
+--- | :---:
+No | 40 (87)
+Yes | 6 (13)
 
 *No. missing cases: 7*
 
@@ -339,11 +322,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Adjuvant radiotherapy
 
 
-
-|    | No. Cases|    %|
-|:---|---------:|----:|
-|No  |      43.0| 87.8|
-|Yes |       6.0| 12.2|
+Categorical Level | No. Cases (%)
+--- | :---:
+No | 43 (87.8)
+Yes | 6 (12.2)
 
 *No. missing cases: 4*
 
@@ -355,11 +337,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Tumor recurrence
 
 
-
-|    | No. Cases|    %|
-|:---|---------:|----:|
-|No  |      40.0| 90.9|
-|Yes |       4.0|  9.1|
+Categorical Level | No. Cases (%)
+--- | :---:
+No | 40 (90.9)
+Yes | 4 (9.1)
 
 *No. missing cases: 9*
 
@@ -370,15 +351,14 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Time from primary treatment to tumor recurrence
 
 
-
-|Statistics          |Values |
-|:-------------------|:------|
-|Mean                |20.5   |
-|Standard Deviation  |23.7   |
-|Median              |13.3   |
-|Interquartile Range |20.8   |
-|Mininum             |1      |
-|Maximum             |54.4   |
+Statistics | Value
+--- | :---:
+Mean | 20.5
+Standard deviation | 23.7
+Median | 13.3
+Interquartile range | 20.8
+Minimum | 1
+Maximum | 54.4
 
 *No. missing cases: 49*
 
@@ -389,11 +369,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Tumor progression
 
 
-
-|    | No. Cases|    %|
-|:---|---------:|----:|
-|No  |      29.0| 61.7|
-|Yes |      18.0| 38.3|
+Categorical Level | No. Cases (%)
+--- | :---:
+No | 29 (61.7)
+Yes | 18 (38.3)
 
 *No. missing cases: 6*
 
@@ -404,15 +383,14 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Time from primary treatment to tumor progression
 
 
-
-|Statistics          |Values |
-|:-------------------|:------|
-|Mean                |9.8    |
-|Standard Deviation  |9      |
-|Median              |6      |
-|Interquartile Range |13.3   |
-|Mininum             |0.2    |
-|Maximum             |31.4   |
+Statistics | Value
+--- | :---:
+Mean | 9.8
+Standard deviation | 9
+Median | 6
+Interquartile range | 13.3
+Minimum | 0.2
+Maximum | 31.4
 
 *No. missing cases: 39*
 
@@ -423,11 +401,10 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Distant (visceral) metastasis
 
 
-
-|    | No. Cases|    %|
-|:---|---------:|----:|
-|No  |      26.0| 57.8|
-|Yes |      19.0| 42.2|
+Categorical Level | No. Cases (%)
+--- | :---:
+No | 26 (57.8)
+Yes | 19 (42.2)
 
 *No. missing cases: 8*
 
@@ -438,15 +415,14 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Time from primary treatment to distant metastasis
 
 
-
-|Statistics          |Values |
-|:-------------------|:------|
-|Mean                |9.8    |
-|Standard Deviation  |7      |
-|Median              |10.7   |
-|Interquartile Range |13.1   |
-|Mininum             |1.3    |
-|Maximum             |19.4   |
+Statistics | Value
+--- | :---:
+Mean | 9.8
+Standard deviation | 7
+Median | 10.7
+Interquartile range | 13.1
+Minimum | 1.3
+Maximum | 19.4
 
 *No. missing cases: 44*
 
@@ -457,14 +433,13 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Patient's outcome
 
 
-
-|                      | No. Cases|    %|
-|:---------------------|---------:|----:|
-|Died of Disease       |      11.0| 20.8|
-|Died of other Causes  |      15.0| 28.3|
-|Alive with Disease    |      10.0| 18.9|
-|Alive with No Disease |      16.0| 30.2|
-|No Follow-Up          |       1.0|  1.9|
+Categorical Level | No. Cases (%)
+--- | :---:
+Died of Disease | 11 (20.8)
+Died of other Causes | 15 (28.3)
+Alive with Disease | 10 (18.9)
+Alive with No Disease | 16 (30.2)
+No Follow-Up | 1 (1.9)
 
 *No. missing cases: 0*
 
@@ -475,15 +450,14 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Total follow-up time (months)
 
 
-
-|Statistics          |Values |
-|:-------------------|:------|
-|Mean                |37.2   |
-|Standard Deviation  |43.5   |
-|Median              |17.9   |
-|Interquartile Range |47.2   |
-|Mininum             |0.1    |
-|Maximum             |191.8  |
+Statistics | Value
+--- | :---:
+Mean | 37.2
+Standard deviation | 43.5
+Median | 17.9
+Interquartile range | 47.2
+Minimum | 0.1
+Maximum | 191.8
 
 *No. missing cases: 2*
 
@@ -495,15 +469,14 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### EGFR median score
 
 
-
-|Statistics          |Values |
-|:-------------------|:------|
-|Mean                |8.3    |
-|Standard Deviation  |6      |
-|Median              |8.1    |
-|Interquartile Range |10.1   |
-|Mininum             |0      |
-|Maximum             |20     |
+Statistics | Value
+--- | :---:
+Mean | 8.3
+Standard deviation | 6
+Median | 8.1
+Interquartile range | 10.1
+Minimum | 0
+Maximum | 20
 
 *No. missing cases: 1*
 
@@ -516,12 +489,11 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 
 
 
-
-|              | No. Cases|    %|
-|:-------------|---------:|----:|
-|Negative EGFR |      16.0| 30.8|
-|Low EGFR      |      10.0| 19.2|
-|High EGFR     |      26.0| 50.0|
+Categorical Level | No. Cases (%)
+--- | :---:
+Negative EGFR | 16 (30.8)
+Low EGFR | 10 (19.2)
+High EGFR | 26 (50)
 
 *No. missing cases: 1*
 
@@ -537,55 +509,14 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Patient's age and EGFR
 
 
-<table frame="hsides" rules="groups">
-<thead>
-<tr class="center">
-  <th></th>
-  <th>Negative EGFR</th>
-  <th>Low EGFR</th>
-  <th>High EGFR</th>
-</tr>
-</thead>
-<tbody>
-<tr class="center">
-  <th class="center">Mean</th>
-  <td>64.0</td>
-  <td>67.8</td>
-  <td>65.8</td>
-</tr>
- <tr class="center">
-  <th class="center">Standard Deviation</th>
-  <td>12.2</td>
-  <td>11.9</td>
-  <td>12.4</td>
-</tr>
- <tr class="center">
-  <th class="center">Median</th>
-  <td>65.5</td>
-  <td>65.0</td>
-  <td>65.0</td>
-</tr>
- <tr class="center">
-  <th class="center">Interquartile Range</th>
-  <td>18.0</td>
-  <td>20.0</td>
-  <td>17.5</td>
-</tr>
- <tr class="center">
-  <th class="center">Maximum</th>
-  <td>80.0</td>
-  <td>87.0</td>
-  <td>93.0</td>
-</tr>
- <tr class="center">
-  <th class="center">Minimum</th>
-  <td>38.0</td>
-  <td>56.0</td>
-  <td>39.0</td>
-</tr>
-</tbody>
-</table>
-
+Statistics | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+Mean | 64 | 67.8 | 65.8
+Standard deviation | 12.2 | 11.9 | 12.4
+Median | 65.5 | 65 | 65
+Interquartile range | 18 | 20 | 17.5
+Minimum | 38 | 56 | 39
+Maximum | 80 | 87 | 93
 
 *No. missing cases: 0*
 
@@ -596,80 +527,11 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 #### Patient's race and EGFR
 
 
-<table frame="hsides" rules="groups">
-<thead>
-<tr class="center">
-  <th>&nbsp;</th>
-  <th>&nbsp;</th>
-  <th colspan="3">EGFR</th>
-</tr>
- <tr class="center">
-  <th>race</th>
-  <th></th>
-  <th>Negative EGFR</th>
-  <th>Low EGFR</th>
-  <th>High EGFR</th>
-</tr>
-</thead>
-<tbody>
-<tr class="center">
-  <th class="left">Caucasian</th>
-  <th class="left">Count</th>
-  <td>12</td>
-  <td> 8</td>
-  <td>17</td>
-</tr>
- <tr class="center">
-  <th class="left">&nbsp;</th>
-  <th class="left">Percent</th>
-  <td>32.4</td>
-  <td>21.6</td>
-  <td>45.9</td>
-</tr>
- <tr class="center">
-  <th class="left">African-American</th>
-  <th class="left">Count</th>
-  <td> 3</td>
-  <td> 1</td>
-  <td> 7</td>
-</tr>
- <tr class="center">
-  <th class="left">&nbsp;</th>
-  <th class="left">Percent</th>
-  <td>25.0</td>
-  <td> 8.3</td>
-  <td>58.3</td>
-</tr>
- <tr class="center">
-  <th class="left">Other</th>
-  <th class="left">Count</th>
-  <td> 1</td>
-  <td> 1</td>
-  <td> 2</td>
-</tr>
- <tr class="center">
-  <th class="left">&nbsp;</th>
-  <th class="left">Percent</th>
-  <td>25.0</td>
-  <td>25.0</td>
-  <td>50.0</td>
-</tr>
- <tr class="center">
-  <th class="left">All</th>
-  <th class="left">Count</th>
-  <td>16</td>
-  <td>10</td>
-  <td>26</td>
-</tr>
- <tr class="center">
-  <th class="left">&nbsp;</th>
-  <th class="left">Percent</th>
-  <td>30.2</td>
-  <td>18.9</td>
-  <td>49.1</td>
-</tr>
-</tbody>
-</table>
+Categorical Level | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+Caucasian | 12 (32.4) | 8 (21.6) | 17 (45.9)
+African-American | 3 (27.3) | 1 (9.1) | 7 (63.6)
+Other | 1 (25) | 1 (25) | 2 (50)
 
 *No. missing cases: 0*
 
@@ -931,7 +793,7 @@ Yes | 7 (30.4) | 3 (13) | 13 (56.5)
 
 ***
 
-#### Cancer-related mortalitynd EGFR
+#### Cancer-related mortality and EGFR
 
 
 Categorical Level | Negative EGFR | Low EGFR | High EGFR
@@ -973,7 +835,67 @@ Yes | 3 (33.3) | 0 (0) | 6 (66.7)
 ***
 
 ## Survival Analysis
-This section, currently under preparation, will include survival plots drawn using the Kapplan-Meier method and compared using the Mantel-Cox test.
+This section includes survival plots drawn using the Kapplan-Meier method and compared using the Mantel-Cox test, for each of the following outcomes: tumor recurrence, tumor progression, distant metastasis, overall mortality, and cancer-related mortality.
+
+### Tumor recurrence
+
+
+
+
+Follow-up on tumor recurrence | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+No | 16 (33.3) | 9 (18.8) | 23 (47.9)
+Yes | 0 (0) | 1 (25) | 3 (75)
+
+![plot of chunk OutcomeRecurrence](figure/OutcomeRecurrence.png) 
+
+### Tumor progression
+
+
+
+
+Follow-up on tumor progression | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+No | 12 (31.6) | 10 (26.3) | 16 (42.1)
+Yes | 4 (28.6) | 0 (0) | 10 (71.4)
+
+![plot of chunk OutcomeProgression](figure/OutcomeProgression.png) 
+
+### Distant metastasis
+
+
+
+
+Follow-up on distant metastasis | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+No | 13 (30.2) | 10 (23.3) | 20 (46.5)
+Yes | 3 (33.3) | 0 (0) | 6 (66.7)
+
+![plot of chunk OutcomeMetastasis](figure/OutcomeMetastasis.png) 
+
+### Overall mortality
+
+
+
+
+Follow-up on overall mortality | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+No | 1 (50) | 0 (0) | 1 (50)
+Yes | 15 (30) | 10 (20) | 25 (50)
+
+![plot of chunk OutcomeDeath](figure/OutcomeDeath.png) 
+
+### Cancer-specific mortality
+
+
+
+
+Follow-up on cancer-specific mortality | Negative EGFR | Low EGFR | High EGFR
+--- | :---: | :---: | :---:
+No | 1 (50) | 0 (0) | 1 (50)
+Yes | 15 (30) | 10 (20) | 25 (50)
+
+![plot of chunk OutcomeDOD](figure/OutcomeDOD.png) 
 
 ***
 
