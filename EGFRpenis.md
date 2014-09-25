@@ -1,10 +1,10 @@
 # EGFR Expression in Penile Cancer
-Last update: ``Wed Sep 24 15:08:42 2014``
+Last update: ``Thu Sep 25 10:25:33 2014``
 
 
 ```r
 library(knitr)
-opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = FALSE, fig.width = 9, results = "asis")
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis")
 ```
 
 
@@ -555,6 +555,69 @@ opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = FALSE, fi
 
 #### Patient's race and EGFR
 
+
+<table frame="hsides" rules="groups">
+<thead>
+<tr class="center">
+  <th>&nbsp;</th>
+  <th>&nbsp;</th>
+  <th colspan="3">EGFR</th>
+</tr>
+ <tr class="center">
+  <th></th>
+  <th></th>
+  <th>Negative EGFR</th>
+  <th>Low EGFR</th>
+  <th>High EGFR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="center">
+  <th class="left">Age</th>
+  <th class="left">Mean</th>
+  <td>64.00</td>
+  <td>67.80</td>
+  <td>65.85</td>
+</tr>
+ <tr class="center">
+  <th class="left">&nbsp;</th>
+  <th class="left">SD</th>
+  <td>12.18</td>
+  <td>11.92</td>
+  <td>12.42</td>
+</tr>
+ <tr class="center">
+  <th class="left">&nbsp;</th>
+  <th class="left">Median</th>
+  <td>65.50</td>
+  <td>65.00</td>
+  <td>65.00</td>
+</tr>
+ <tr class="center">
+  <th class="left">&nbsp;</th>
+  <th class="left">IQR</th>
+  <td>18.00</td>
+  <td>20.00</td>
+  <td>17.50</td>
+</tr>
+ <tr class="center">
+  <th class="left">&nbsp;</th>
+  <th class="left">Maximum</th>
+  <td>80.00</td>
+  <td>87.00</td>
+  <td>93.00</td>
+</tr>
+ <tr class="center">
+  <th class="left">&nbsp;</th>
+  <th class="left">Minimum</th>
+  <td>38.00</td>
+  <td>56.00</td>
+  <td>39.00</td>
+</tr>
+</tbody>
+</table>
+
+***
 
 Categorical Level | Negative EGFR | Low EGFR | High EGFR
 --- | :---: | :---: | :---:
