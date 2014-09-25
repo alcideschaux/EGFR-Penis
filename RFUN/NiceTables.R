@@ -34,9 +34,13 @@ table.compare <- function(x, y){
         kable(final.table)
 }
 # 
-cat.group <- function(x, y){
-        table.xy <- table(x, y)
-        row.xy <- round(100*(prop.table(table.xy, 1)))
-        final.table <- cbind("Counts" = table.xy, "Rows %" = row.xy)
-        kable(final.table)
+table.html <- function(x, y){
+        library(tables)
+        library(Hmisc)
+        table.xy <- tabular(Format(digits = 3)*Heading()*x*(
+                (Mean = mean) + (SD = sd) +
+                        (Median = median) + (IQR = IQR) +
+                        (Maximum = max) + (Minimum = min)
+                ) ~ Heading()*y)
+        html(table.xy)        
 }

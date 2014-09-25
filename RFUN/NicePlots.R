@@ -71,3 +71,22 @@ compare.mosaic <- function(x, y, ...){
                    xlab = "", ylab = "", cex.axis = 1, ...)
         par(mar = c(5, 4, 4, 2) + 0.1)
 }
+
+# Defining the survival.plot function for plotting survival curves
+survival.plot <- function(x, fu, outcome, title, position = "topright", levels, logrank = "bottomleft", ...){
+        par(mar = c(5, 6, 4, 2) + 0.1)
+        outcome <- as.numeric(outcome)
+        survival.obj <- Surv(fu, outcome)
+        survival.lr <- survdiff(survival.obj ~ x)
+        survival.p <- pchisq(survival.lr$chisq, df = 1, lower = FALSE)
+        survival.x <- survfit(survival.obj ~ x)
+        plot(survival.x, cex = 2, main = title, cex.main = 1.75,
+             xlab = "Follow-Up (Months)", ylab = "Survival Function", cex.lab = 1.5,
+             col =c(1,2,4), mark = c(2,0,5), lty = c(2,1,3), ...)
+        legend(x = position, legend = levels, pch = c(2,0,5), lty = c(2,1,3),
+               col = c(1,2,4), bty = "n", cex = 1.25)
+        legend(x = logrank, bty = "n", 
+               paste("P value (log-rank test) =", format(survival.p, digits = 2, width = 6)),
+               cex = 1.25)
+        par(mar = c(5, 4, 4, 2) + 0.1)
+}
