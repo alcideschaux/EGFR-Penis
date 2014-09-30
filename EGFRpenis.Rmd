@@ -1,6 +1,3 @@
----
-output: html_document
----
 # EGFR Expression in Penile Cancer
 Last update: ```r {date()}```
 
@@ -17,6 +14,7 @@ source("RFUN/NiceTables.R")
 library(foreign) # For reading STATA data
 library(survival)
 library(plyr) # for revalue and rename
+require(ggplot2) # for forest plots
 # Loading the STATA dataset
 penis.full <- read.dta("../penile tma 6-11-14 stata 12.dta", convert.underscore = TRUE)
 # Selecting clinicopathologic variables from the full dataset
@@ -55,6 +53,13 @@ write.csv(penis.data, "PenisDataset.csv")
 nice.colors <- c("turquoise", "coral", "cornflowerblue")
 # Attaching the dataset
 attach(penis.data)
+```
+
+```{r EGFRCategories}
+# Defining cutoff points for EGFR scores
+EGFR <- cut(egfr.median.score, breaks = c(-Inf, 4, 8, Inf),
+            labels = c("Negative EGFR", "Low EGFR", "High EGFR")
+            )
 ```
 
 ***
@@ -131,6 +136,7 @@ Categorical Level | No. Cases (%)
 `r levels(var)[1]` | `r var.t[1]` (`r round(var.t[1]/sum(var.t)*100, digits = 1)`)
 `r levels(var)[2]` | `r var.t[2]` (`r round(var.t[2]/sum(var.t)*100, digits = 1)`)
 `r levels(var)[3]` | `r var.t[3]` (`r round(var.t[3]/sum(var.t)*100, digits = 1)`)
+`r levels(var)[4]` | `r var.t[4]` (`r round(var.t[4]/sum(var.t)*100, digits = 1)`)
 
 *No. missing cases: `r sum(is.na(var))`*
 
@@ -588,13 +594,6 @@ descriptive.numeric(var, label = t)
 ***
 
 #### EGFR categories
-```{r EGFRCategories}
-# Defining cutoff points for EGFR scores
-EGFR <- cut(egfr.median.score, breaks = c(-Inf, 4, 8, Inf),
-            labels = c("Negative EGFR", "Low EGFR", "High EGFR")
-            )
-```
-
 `r var <- EGFR; var.t <- table(var); t <- "EGFR Expression"`
 
 Categorical Level | No. Cases (%)
@@ -1073,7 +1072,7 @@ p.adjusted <- p.adjust(p.raw, method = c("hommel"))
 # Combining raw and adjusted P values
 p.table <- cbind("Variables" = p.names, "Raw P values" = p.raw, "Adjusted P values" = p.adjusted)
 # Creating the output table
-kable(p.table, format = "markdown")
+kable(p.table, format = "markdown", align = c("l", "c", "c"))
 ```
 
 ***
@@ -1179,10 +1178,298 @@ survival.plot(x = EGFR, fu = fu.last.mo, outcome = died.disease, ylim = c(0.4, 1
 ***
 
 ## Odds Ratios
-This section, currently under preparation, will report the odds ratios for outcome (tumor recurrence, tumor progression, distant metastasis, overall mortality, and cancer-related mortality) considering EGFR expression using unconditional logistic regression (unadjusted and adjusted) models.
+This section reports the odds ratios (OR) for outcome (tumor recurrence, tumor progression, distant metastasis, overall mortality, and cancer-related mortality) considering EGFR expression (high vs. low/negative) using unconditional logistic regression models. Variables with extremely low or extremely high OR were dropped from the report.
+
+```{r OR.recode}
+# Recoding levels for logistic regression
+older <- ifelse(age > median(age), c("Yes"), c("No"))
+caucasian <- ifelse(race == "Caucasian", c("Yes"), c("No"))
+glans <- ifelse(site == "Glans", c("Yes"), c("No"))
+lp <- ifelse(level == "Lamina Propria", c("Yes"), c("No"))
+high.grade <- ifelse(grade == "Grade 3", c("Yes"), c("No"))
+deep <- ifelse(thick == "More than 10 mm", c("Yes"), c("No"))
+high.pt <- as.factor(ifelse(as.numeric(tnm.tumor) > 3, c("Yes"), c("No")))
+high.pn <- as.factor(ifelse(as.numeric(tnm.nodes) > 1, c("Yes"), c("No")))
+high.stage <- as.factor(ifelse(as.numeric(stage) > 3, c("Yes"), c("No")))
+prophylactic <- ifelse(dissection.type == "Prophylactic", c("Yes"), c("No"))
+high.EGFR <- ifelse(EGFR == "High EGFR", c("Yes"), c("No"))
+```
+
+### Tumor recurrence
+#### Odds ratios for tumor recurrence
+```{r OR.recurrence}
+var <- recurrence
+
+# Regression models
+age.OR <- glm(var ~ older, family = binomial)
+race.OR <- glm(var ~ caucasian, family = binomial) # Dropped
+site.OR <- glm(var ~ glans, family = binomial)
+level.OR <- glm(var ~ lp, family = binomial)
+grade.OR <- glm(var ~ high.grade, family = binomial) # Dropped
+thick.OR <- glm(var ~ deep, family = binomial)
+urethra.OR <- glm(var ~ urethra, family = binomial) # Dropped
+lvi.OR <- glm(var ~ lvi, family = binomial)
+pni.OR <- glm(var ~ pni, family = binomial)
+hpv.OR <- glm(var ~ hpv.pos, family = binomial)
+pt.OR <- glm (var ~ high.pt, family = binomial)
+pn.OR <- glm (var ~ high.pn, family = binomial)
+stage.OR <- glm (var ~ high.stage, family = binomial)
+nodes.OR <- glm(var ~ nodes, family = binomial)
+dissection.OR <- glm(var ~ prophylactic, family = binomial) # Dropped
+EGFR.OR <- glm(var ~ high.EGFR, family = binomial)
+
+# OR table
+OR.variables <- c("Patient's age > median", "Glans location", "Invasion limited to lamina propria", "Deep invasive tumor (> 10 mm)", "Lymphovascular invasion", "Perineural invasion", "HPV infection", "High pT stage (> pT1)", "High pN stage (> pN0)", "High clinical stage (> Stage II)", "Metastatic inguinal lymph nodes", "High EGFR expression")
+
+OR.center <- c(exp(coef(age.OR))[2], exp(coef(site.OR))[2], exp(coef(level.OR))[2], exp(coef(thick.OR))[2], exp(coef(lvi.OR))[2], exp(coef(pni.OR))[2], exp(coef(hpv.OR))[2], exp(coef(pt.OR))[2], exp(coef(pn.OR))[2], exp(coef(stage.OR))[2], exp(coef(nodes.OR))[2], exp(coef(EGFR.OR))[2])
+
+OR.low <- c(exp(confint(age.OR))[2, 1], exp(confint(site.OR))[2, 1], exp(confint(level.OR))[2, 1], exp(confint(thick.OR))[2, 1], exp(confint(lvi.OR))[2, 1], exp(confint(pni.OR))[2, 1], exp(confint(hpv.OR))[2, 1], exp(confint(pt.OR))[2, 1], exp(confint(pn.OR))[2, 1], exp(confint(stage.OR))[2, 1], exp(confint(nodes.OR))[2, 1], exp(confint(EGFR.OR))[2, 1])
+
+OR.high <- c(exp(confint(age.OR))[2, 2], exp(confint(site.OR))[2, 2], exp(confint(level.OR))[2, 2], exp(confint(thick.OR))[2, 2], exp(confint(lvi.OR))[2, 2], exp(confint(pni.OR))[2, 2], exp(confint(hpv.OR))[2, 2], exp(confint(pt.OR))[2, 2], exp(confint(pn.OR))[2, 2], exp(confint(stage.OR))[2, 2], exp(confint(nodes.OR))[2, 2], exp(confint(EGFR.OR))[2, 2])
+
+OR.p <- c(summary(age.OR)$coef[2, 4], summary(site.OR)$coef[2, 4], summary(level.OR)$coef[2, 4], summary(thick.OR)$coef[2, 4], summary(lvi.OR)$coef[2, 4], summary(pni.OR)$coef[2, 4], summary(hpv.OR)$coef[2, 4], summary(pt.OR)$coef[2, 4], summary(pn.OR)$coef[2, 4], summary(stage.OR)$coef[2, 4], summary(nodes.OR)$coef[2, 4], summary(EGFR.OR)$coef[2, 4])
+
+OR.table <- cbind("Variable" = OR.variables, "OR" = round(OR.center, digits = 2), "Lower 95% CI" = round(OR.low, digits = 2), "Upper 95% CI" = round(OR.high, digits = 2), "P value" = round(OR.p, digits = 4))
+
+kable(OR.table, row.names = FALSE, align = c("l", "c", "c", "c", "c"))
+```
+
+<small>The following variables were dropped: caucasian race, high grade tumor (grade 3), invasion of penile urethra, and prophylactic inguinal lymph node dissection.</small><br><br>
+
+#### Forest plot for tumor recurrence
+```{r RecurrenceForestPlot}
+ggplot(data = data.frame(OR.table), aes(x = OR.variables, y = OR.center, ymin = OR.low, ymax = OR.high)) +
+        geom_errorbar(width = 0.25, size = 0.75) + 
+        geom_hline(y = 1, linetype = "longdash") +
+        geom_point(size = 2, shape = 15) + 
+        coord_flip() +
+        xlab("") + ylab("Odds ratios") + 
+        theme_classic(base_size = 15, base_family = "")
+```
+
+***
+
+### Tumor progression
+#### Odds ratios for tumor progression
+```{r OR.progression}
+var <- progression
+
+# Regression models
+age.OR <- glm(var ~ older, family = binomial)
+race.OR <- glm(var ~ caucasian, family = binomial)
+site.OR <- glm(var ~ glans, family = binomial)
+level.OR <- glm(var ~ lp, family = binomial)
+grade.OR <- glm(var ~ high.grade, family = binomial)
+thick.OR <- glm(var ~ deep, family = binomial)
+urethra.OR <- glm(var ~ urethra, family = binomial)
+lvi.OR <- glm(var ~ lvi, family = binomial)
+pni.OR <- glm(var ~ pni, family = binomial)
+hpv.OR <- glm(var ~ hpv.pos, family = binomial)
+pt.OR <- glm (var ~ high.pt, family = binomial)
+pn.OR <- glm (var ~ high.pn, family = binomial)
+stage.OR <- glm (var ~ high.stage, family = binomial)
+dissection.OR <- glm(var ~ prophylactic, family = binomial)
+nodes.OR <- glm(var ~ nodes, family = binomial)
+EGFR.OR <- glm(var ~ high.EGFR, family = binomial)
+
+# OR table
+OR.variables <- c("Patient's age > median", "Caucasian race", "Glans location", "Invasion limited to lamina propria", "High grade tumor (grade 3)", "Deep invasive tumor (> 10 mm)", "Invasion of penile urethra", "Lymphovascular invasion", "Perineural invasion", "HPV infection", "High pT stage (> pT1)", "High pN stage (> pN0)", "High clinical stage (> Stage II)", "Prophylactic inguinal lymph node dissection", "Metastatic inguinal lymph nodes", "High EGFR expression")
+
+OR.center <- c(exp(coef(age.OR))[2], exp(coef(race.OR))[2], exp(coef(site.OR))[2], exp(coef(level.OR))[2], exp(coef(grade.OR))[2], exp(coef(thick.OR))[2], exp(coef(urethra.OR))[2], exp(coef(lvi.OR))[2], exp(coef(pni.OR))[2], exp(coef(hpv.OR))[2], exp(coef(pt.OR))[2], exp(coef(pn.OR))[2], exp(coef(stage.OR))[2], exp(coef(dissection.OR))[2], exp(coef(nodes.OR))[2], exp(coef(EGFR.OR))[2])
+
+OR.low <- c(exp(confint(age.OR))[2, 1], exp(confint(race.OR))[2, 1], exp(confint(site.OR))[2, 1], exp(confint(level.OR))[2, 1], exp(confint(grade.OR))[2, 1], exp(confint(thick.OR))[2, 1], exp(confint(urethra.OR))[2, 1], exp(confint(lvi.OR))[2, 1], exp(confint(pni.OR))[2, 1], exp(confint(hpv.OR))[2, 1], exp(confint(pt.OR))[2, 1], exp(confint(pn.OR))[2, 1], exp(confint(stage.OR))[2, 1], exp(confint(dissection.OR))[2, 1], exp(confint(nodes.OR))[2, 1], exp(confint(EGFR.OR))[2, 1])
+
+OR.high <- c(exp(confint(age.OR))[2, 2], exp(confint(race.OR))[2, 2], exp(confint(site.OR))[2, 2], exp(confint(level.OR))[2, 2], exp(confint(grade.OR))[2, 2], exp(confint(thick.OR))[2, 2], exp(confint(urethra.OR))[2, 2], exp(confint(lvi.OR))[2, 2], exp(confint(pni.OR))[2, 2], exp(confint(hpv.OR))[2, 2], exp(confint(pt.OR))[2, 2], exp(confint(pn.OR))[2, 2], exp(confint(stage.OR))[2, 2], exp(confint(dissection.OR))[2, 2], exp(confint(nodes.OR))[2, 2], exp(confint(EGFR.OR))[2, 2])
+
+OR.p <- c(summary(age.OR)$coef[2, 4], summary(race.OR)$coef[2, 4], summary(site.OR)$coef[2, 4], summary(level.OR)$coef[2, 4], summary(grade.OR)$coef[2, 4], summary(thick.OR)$coef[2, 4], summary(urethra.OR)$coef[2, 4], summary(lvi.OR)$coef[2, 4], summary(pni.OR)$coef[2, 4], summary(hpv.OR)$coef[2, 4], summary(pt.OR)$coef[2, 4], summary(pn.OR)$coef[2, 4], summary(stage.OR)$coef[2, 4], summary(dissection.OR)$coef[2, 4], summary(nodes.OR)$coef[2, 4], summary(EGFR.OR)$coef[2, 4])
+
+OR.table <- cbind("Variable" = OR.variables, "OR" = round(OR.center, digits = 2), "Lower 95% CI" = round(OR.low, digits = 2), "Upper 95% CI" = round(OR.high, digits = 2), "P value" = round(OR.p, digits = 4))
+
+kable(OR.table, row.names = FALSE, align = c("l", "c", "c", "c", "c"))
+```
+
+<br><br>
+
+#### Forest plot for tumor progression
+```{r ProgressionForestPlot}
+ggplot(data = data.frame(OR.table),
+       aes(x = OR.variables, y = OR.center, ymin = OR.low, ymax = OR.high)) +
+        geom_errorbar(width = 0.25, size = 0.75) + 
+        geom_hline(y = 1, linetype = "longdash") +
+        geom_point(size = 2, shape = 15) + 
+        coord_flip() +
+        xlab("") + ylab("Odds ratios") + 
+        theme_classic(base_size = 15, base_family = "")
+```
+
+***
+
+### Distant metastasis
+#### Odds ratios for distant metastasis
+```{r OR.mets}
+var <- mets
+
+# Regression models
+age.OR <- glm(var ~ older, family = binomial)
+race.OR <- glm(var ~ caucasian, family = binomial)
+site.OR <- glm(var ~ glans, family = binomial)
+level.OR <- glm(var ~ lp, family = binomial)
+grade.OR <- glm(var ~ high.grade, family = binomial)
+thick.OR <- glm(var ~ deep, family = binomial)
+urethra.OR <- glm(var ~ urethra, family = binomial)
+lvi.OR <- glm(var ~ lvi, family = binomial)
+pni.OR <- glm(var ~ pni, family = binomial)
+hpv.OR <- glm(var ~ hpv.pos, family = binomial)
+pt.OR <- glm (var ~ high.pt, family = binomial)
+pn.OR <- glm (var ~ high.pn, family = binomial) # Dropped
+stage.OR <- glm (var ~ high.stage, family = binomial) # Dropped
+nodes.OR <- glm(var ~ nodes, family = binomial) # Dropped
+dissection.OR <- glm(var ~ prophylactic, family = binomial)
+EGFR.OR <- glm(var ~ high.EGFR, family = binomial)
+
+# OR table
+OR.variables <- c("Patient's age > median", "Caucasian race", "Glans location", "Invasion limited to lamina propria", "High grade tumor (grade 3)", "Deep invasive tumor (> 10 mm)", "Invasion of penile urethra", "Lymphovascular invasion", "Perineural invasion", "HPV infection", "High pT stage (> pT1)", "Prophylactic inguinal lymph node dissection", "High EGFR expression")
+
+OR.center <- c(exp(coef(age.OR))[2], exp(coef(race.OR))[2], exp(coef(site.OR))[2], exp(coef(level.OR))[2], exp(coef(grade.OR))[2], exp(coef(thick.OR))[2], exp(coef(urethra.OR))[2], exp(coef(lvi.OR))[2], exp(coef(pni.OR))[2], exp(coef(hpv.OR))[2], exp(coef(pt.OR))[2], exp(coef(dissection.OR))[2], exp(coef(EGFR.OR))[2])
+
+OR.low <- c(exp(confint(age.OR))[2, 1], exp(confint(race.OR))[2, 1], exp(confint(site.OR))[2, 1], exp(confint(level.OR))[2, 1], exp(confint(grade.OR))[2, 1], exp(confint(thick.OR))[2, 1], exp(confint(urethra.OR))[2, 1], exp(confint(lvi.OR))[2, 1], exp(confint(pni.OR))[2, 1], exp(confint(hpv.OR))[2, 1], exp(confint(pt.OR))[2, 1], exp(confint(dissection.OR))[2, 1], exp(confint(EGFR.OR))[2, 1])
+
+OR.high <- c(exp(confint(age.OR))[2, 2], exp(confint(race.OR))[2, 2], exp(confint(site.OR))[2, 2], exp(confint(level.OR))[2, 2], exp(confint(grade.OR))[2, 2], exp(confint(thick.OR))[2, 2], exp(confint(urethra.OR))[2, 2], exp(confint(lvi.OR))[2, 2], exp(confint(pni.OR))[2, 2], exp(confint(hpv.OR))[2, 2], exp(confint(pt.OR))[2, 2], exp(confint(dissection.OR))[2, 2], exp(confint(EGFR.OR))[2, 2])
+
+OR.p <- c(summary(age.OR)$coef[2, 4], summary(race.OR)$coef[2, 4], summary(site.OR)$coef[2, 4], summary(level.OR)$coef[2, 4], summary(grade.OR)$coef[2, 4], summary(thick.OR)$coef[2, 4], summary(urethra.OR)$coef[2, 4], summary(lvi.OR)$coef[2, 4], summary(pni.OR)$coef[2, 4], summary(hpv.OR)$coef[2, 4], summary(pt.OR)$coef[2, 4], summary(dissection.OR)$coef[2, 4], summary(EGFR.OR)$coef[2, 4])
+
+OR.table <- cbind("Variable" = OR.variables, "OR" = round(OR.center, digits = 2), "Lower 95% CI" = round(OR.low, digits = 2), "Upper 95% CI" = round(OR.high, digits = 2), "P value" = round(OR.p, digits = 4))
+
+kable(OR.table, row.names = FALSE, align = c("l", "c", "c", "c", "c"))
+```
+
+<small>The following variables were dropped: high pT stage (> pN0), high clinical stage (> Stage II), and metastatic inguinal lymph nodes.</small><br><br>
+
+#### Forest plot for distant metastasis
+```{r MetsForestPlot}
+ggplot(data = data.frame(OR.table),
+       aes(x = OR.variables, y = OR.center, ymin = OR.low, ymax = OR.high)) +
+        geom_errorbar(width = 0.25, size = 0.75) + 
+        geom_hline(y = 1, linetype = "longdash") +
+        geom_point(size = 2, shape = 15) + 
+        coord_flip() +
+        xlab("") + ylab("Odds ratios") + 
+        theme_classic(base_size = 15, base_family = "")
+```
+
+***
+
+### Overall mortality
+#### Odds ratios for overall mortality
+```{r OR.dead}
+var <- dead
+
+# Regression models
+age.OR <- glm(var ~ older, family = binomial)
+race.OR <- glm(var ~ caucasian, family = binomial)
+site.OR <- glm(var ~ glans, family = binomial)
+level.OR <- glm(var ~ lp, family = binomial)
+grade.OR <- glm(var ~ high.grade, family = binomial)
+thick.OR <- glm(var ~ deep, family = binomial)
+urethra.OR <- glm(var ~ urethra, family = binomial)
+lvi.OR <- glm(var ~ lvi, family = binomial)
+pni.OR <- glm(var ~ pni, family = binomial)
+hpv.OR <- glm(var ~ hpv.pos, family = binomial)
+pt.OR <- glm (var ~ high.pt, family = binomial)
+pn.OR <- glm (var ~ high.pn, family = binomial)
+stage.OR <- glm (var ~ high.stage, family = binomial)
+nodes.OR <- glm(var ~ nodes, family = binomial)
+dissection.OR <- glm(var ~ prophylactic, family = binomial)
+EGFR.OR <- glm(var ~ high.EGFR, family = binomial)
+
+# OR table
+OR.variables <- c("Patient's age > median", "Caucasian race", "Glans location", "Invasion limited to lamina propria", "High grade tumor (grade 3)", "Deep invasive tumor (> 10 mm)", "Invasion of penile urethra", "Lymphovascular invasion", "Perineural invasion", "HPV infection", "High pT stage (> pT1)", "High pN stage (> pN0)", "High clinical stage (> Stage II)", "Prophylactic inguinal lymph node dissection", "Metastatic inguinal lymph nodes", "High EGFR expression")
+
+OR.center <- c(exp(coef(age.OR))[2], exp(coef(race.OR))[2], exp(coef(site.OR))[2], exp(coef(level.OR))[2], exp(coef(grade.OR))[2], exp(coef(thick.OR))[2], exp(coef(urethra.OR))[2], exp(coef(lvi.OR))[2], exp(coef(pni.OR))[2], exp(coef(hpv.OR))[2], exp(coef(pt.OR))[2], exp(coef(pn.OR))[2], exp(coef(stage.OR))[2], exp(coef(dissection.OR))[2], exp(coef(nodes.OR))[2], exp(coef(EGFR.OR))[2])
+
+OR.low <- c(exp(confint(age.OR))[2, 1], exp(confint(race.OR))[2, 1], exp(confint(site.OR))[2, 1], exp(confint(level.OR))[2, 1], exp(confint(grade.OR))[2, 1], exp(confint(thick.OR))[2, 1], exp(confint(urethra.OR))[2, 1], exp(confint(lvi.OR))[2, 1], exp(confint(pni.OR))[2, 1], exp(confint(hpv.OR))[2, 1], exp(confint(pt.OR))[2, 1], exp(confint(pn.OR))[2, 1], exp(confint(stage.OR))[2, 1], exp(confint(dissection.OR))[2, 1], exp(confint(nodes.OR))[2, 1], exp(confint(EGFR.OR))[2, 1])
+
+OR.high <- c(exp(confint(age.OR))[2, 2], exp(confint(race.OR))[2, 2], exp(confint(site.OR))[2, 2], exp(confint(level.OR))[2, 2], exp(confint(grade.OR))[2, 2], exp(confint(thick.OR))[2, 2], exp(confint(urethra.OR))[2, 2], exp(confint(lvi.OR))[2, 2], exp(confint(pni.OR))[2, 2], exp(confint(hpv.OR))[2, 2], exp(confint(pt.OR))[2, 2], exp(confint(pn.OR))[2, 2], exp(confint(stage.OR))[2, 2], exp(confint(dissection.OR))[2, 2], exp(confint(nodes.OR))[2, 2], exp(confint(EGFR.OR))[2, 2])
+
+OR.p <- c(summary(age.OR)$coef[2, 4], summary(race.OR)$coef[2, 4], summary(site.OR)$coef[2, 4], summary(level.OR)$coef[2, 4], summary(grade.OR)$coef[2, 4], summary(thick.OR)$coef[2, 4], summary(urethra.OR)$coef[2, 4], summary(lvi.OR)$coef[2, 4], summary(pni.OR)$coef[2, 4], summary(hpv.OR)$coef[2, 4], summary(pt.OR)$coef[2, 4], summary(pn.OR)$coef[2, 4], summary(stage.OR)$coef[2, 4], summary(dissection.OR)$coef[2, 4], summary(nodes.OR)$coef[2, 4], summary(EGFR.OR)$coef[2, 4])
+
+OR.table <- cbind("Variable" = OR.variables, "OR" = round(OR.center, digits = 2), "Lower 95% CI" = round(OR.low, digits = 2), "Upper 95% CI" = round(OR.high, digits = 2), "P value" = round(OR.p, digits = 4))
+
+kable(OR.table, row.names = FALSE, align = c("l", "c", "c", "c", "c"))
+```
+
+<br><br>
+
+#### Forest plot for overall mortality
+```{r DeadForestPlot}
+ggplot(data = data.frame(OR.table),
+       aes(x = OR.variables, y = OR.center, ymin = OR.low, ymax = OR.high)) +
+        geom_errorbar(width = 0.25, size = 0.75) + 
+        geom_hline(y = 1, linetype = "longdash") +
+        geom_point(size = 2, shape = 15) + 
+        coord_flip() +
+        xlab("") + ylab("Odds ratios") + 
+        theme_classic(base_size = 15, base_family = "")
+```
+
+***
+
+### Cancer-specific mortality
+#### Odds ratios for cancer-specific mortality
+```{r OR.DOD}
+var <- died.disease
+
+# Regression models
+age.OR <- glm(var ~ older, family = binomial)
+race.OR <- glm(var ~ caucasian, family = binomial)
+site.OR <- glm(var ~ glans, family = binomial)
+level.OR <- glm(var ~ lp, family = binomial)
+grade.OR <- glm(var ~ high.grade, family = binomial)
+thick.OR <- glm(var ~ deep, family = binomial)
+urethra.OR <- glm(var ~ urethra, family = binomial)
+lvi.OR <- glm(var ~ lvi, family = binomial)
+pni.OR <- glm(var ~ pni, family = binomial)
+hpv.OR <- glm(var ~ hpv.pos, family = binomial)
+pt.OR <- glm (var ~ high.pt, family = binomial)
+pn.OR <- glm (var ~ high.pn, family = binomial)
+stage.OR <- glm (var ~ high.stage, family = binomial)
+nodes.OR <- glm(var ~ nodes, family = binomial)
+dissection.OR <- glm(var ~ prophylactic, family = binomial)
+EGFR.OR <- glm(var ~ high.EGFR, family = binomial)
+
+# OR table
+OR.variables <- c("Patient's age > median", "Glans location", "Invasion limited to lamina propria", "High grade tumor (grade 3)", "Deep invasive tumor (> 10 mm)", "Invasion of penile urethra", "Lymphovascular invasion", "Perineural invasion", "HPV infection", "High pT stage (> pT1)", "High pN stage (> pN0)", "High clinical stage (> Stage II)", "Prophylactic inguinal lymph node dissection", "Metastatic inguinal lymph nodes", "High EGFR expression")
+
+OR.center <- c(exp(coef(age.OR))[2], exp(coef(site.OR))[2], exp(coef(level.OR))[2], exp(coef(grade.OR))[2], exp(coef(thick.OR))[2], exp(coef(urethra.OR))[2], exp(coef(lvi.OR))[2], exp(coef(pni.OR))[2], exp(coef(hpv.OR))[2], exp(coef(pt.OR))[2], exp(coef(pn.OR))[2], exp(coef(stage.OR))[2], exp(coef(dissection.OR))[2], exp(coef(nodes.OR))[2], exp(coef(EGFR.OR))[2])
+
+OR.low <- c(exp(confint(age.OR))[2, 1], exp(confint(site.OR))[2, 1], exp(confint(level.OR))[2, 1], exp(confint(grade.OR))[2, 1], exp(confint(thick.OR))[2, 1], exp(confint(urethra.OR))[2, 1], exp(confint(lvi.OR))[2, 1], exp(confint(pni.OR))[2, 1], exp(confint(hpv.OR))[2, 1], exp(confint(pt.OR))[2, 1], exp(confint(pn.OR))[2, 1], exp(confint(stage.OR))[2, 1], exp(confint(dissection.OR))[2, 1], exp(confint(nodes.OR))[2, 1], exp(confint(EGFR.OR))[2, 1])
+
+OR.high <- c(exp(confint(age.OR))[2, 2], exp(confint(site.OR))[2, 2], exp(confint(level.OR))[2, 2], exp(confint(grade.OR))[2, 2], exp(confint(thick.OR))[2, 2], exp(confint(urethra.OR))[2, 2], exp(confint(lvi.OR))[2, 2], exp(confint(pni.OR))[2, 2], exp(confint(hpv.OR))[2, 2], exp(confint(pt.OR))[2, 2], exp(confint(pn.OR))[2, 2], exp(confint(stage.OR))[2, 2], exp(confint(dissection.OR))[2, 2], exp(confint(nodes.OR))[2, 2], exp(confint(EGFR.OR))[2, 2])
+
+OR.p <- c(summary(age.OR)$coef[2, 4], summary(site.OR)$coef[2, 4], summary(level.OR)$coef[2, 4], summary(grade.OR)$coef[2, 4], summary(thick.OR)$coef[2, 4], summary(urethra.OR)$coef[2, 4], summary(lvi.OR)$coef[2, 4], summary(pni.OR)$coef[2, 4], summary(hpv.OR)$coef[2, 4], summary(pt.OR)$coef[2, 4], summary(pn.OR)$coef[2, 4], summary(stage.OR)$coef[2, 4], summary(dissection.OR)$coef[2, 4], summary(nodes.OR)$coef[2, 4], summary(EGFR.OR)$coef[2, 4])
+
+OR.table <- cbind("Variable" = OR.variables, "OR" = round(OR.center, digits = 2), "Lower 95% CI" = round(OR.low, digits = 2), "Upper 95% CI" = round(OR.high, digits = 2), "P value" = round(OR.p, digits = 4))
+
+kable(OR.table, row.names = FALSE, align = c("l", "c", "c", "c", "c"))
+```
+
+<small>The following variable was dropped: caucasian race.</small><br><br>
+
+#### Forest plot for cancer specific mortality
+```{r DODForestPlot}
+ggplot(data = data.frame(OR.table),
+       aes(x = OR.variables, y = OR.center, ymin = OR.low, ymax = OR.high)) +
+        geom_errorbar(width = 0.25, size = 0.75) + 
+        geom_hline(y = 1, linetype = "longdash") +
+        geom_point(size = 2, shape = 15) + 
+        coord_flip() +
+        xlab("") + ylab("Odds ratios") + 
+        theme_classic(base_size = 15, base_family = "")
+```
 
 ***
 
 ## Hazard Ratios
 This section, currently under preparation, will report the hazard ratios for outcome (tumor recurrence, tumor progression, distant metastasis, overall mortality, and cancer-related mortality) considering EGFR expression using Cox's proportional hazards regression (unadjusted and adjusted) models.
+
 ***
