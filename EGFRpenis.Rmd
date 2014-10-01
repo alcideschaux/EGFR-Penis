@@ -1470,6 +1470,279 @@ ggplot(data = data.frame(OR.table),
 ***
 
 ## Hazard Ratios
-This section, currently under preparation, will report the hazard ratios for outcome (tumor recurrence, tumor progression, distant metastasis, overall mortality, and cancer-related mortality) considering EGFR expression using Cox's proportional hazards regression (unadjusted and adjusted) models.
+This section, currently under preparation, will report the hazard ratios for outcome (tumor recurrence, tumor progression, distant metastasis, overall mortality, and cancer-related mortality) considering EGFR expression using Cox's proportional hazards regression (unadjusted and adjusted) models.  Variables with extremely low or extremely high HR and variables in which the outcome was not observed were dropped from the report.
+
+### Tumor recurrence
+#### Hazard ratios for tumor recurrence
+```{r RecurrenceHR}
+status <- as.numeric(recurrence)
+time <- date.recurrence.mo
+var <- Surv(time, status)
+
+# Regression models
+level.HR <- coxph(var ~ lp)
+thick.HR <- coxph(var ~ deep)
+urethra.HR <- coxph(var ~ urethra)
+lvi.HR <- coxph(var ~ lvi)
+pni.HR <- coxph(var ~ pni)
+hpv.HR <- coxph(var ~ hpv.pos)
+pt.HR <- coxph (var ~ high.pt)
+stage.HR <- coxph (var ~ high.stage)
+EGFR.HR <- coxph(var ~ high.EGFR)
+
+# HR table
+HR.variables <- c("Invasion limited to lamina propria", "Deep invasive tumor (> 10 mm)", "Lymphovascular invasion", "Perineural invasion", "HPV infection", "High pT stage (> pT1)", "High clinical stage (> Stage II)", "High EGFR expression")
+
+HR.center <- c(exp(coef(level.HR)), exp(coef(thick.HR)), exp(coef(lvi.HR)), exp(coef(pni.HR)), exp(coef(hpv.HR)), exp(coef(pt.HR)), exp(coef(stage.HR)), exp(coef(EGFR.HR)))
+
+HR.low <- c(exp(confint(level.HR))[1, 1], exp(confint(thick.HR))[1, 1], exp(confint(lvi.HR))[1, 1], exp(confint(pni.HR))[1, 1], exp(confint(hpv.HR))[1, 1], exp(confint(pt.HR))[1, 1], exp(confint(stage.HR))[1, 1], exp(confint(EGFR.HR))[1, 1])
+
+HR.high <- c(exp(confint(level.HR))[1, 2], exp(confint(thick.HR))[1, 2], exp(confint(lvi.HR))[1, 2], exp(confint(pni.HR))[1, 2], exp(confint(hpv.HR))[1, 2], exp(confint(pt.HR))[1, 2], exp(confint(stage.HR))[1, 2], exp(confint(EGFR.HR))[1, 2])
+
+HR.p <- c(summary(level.HR)$coef[1, 5], summary(thick.HR)$coef[1, 5], summary(lvi.HR)$coef[1, 5], summary(pni.HR)$coef[1, 5], summary(hpv.HR)$coef[1, 5], summary(pt.HR)$coef[1, 5], summary(stage.HR)$coef[1, 5], summary(EGFR.HR)$coef[1, 5])
+
+HR.table <- cbind("Variable" = HR.variables, "HR" = round(HR.center, digits = 2), "Lower 95% CI" = round(HR.low, digits = 2), "Upper 95% CI" = round(HR.high, digits = 2), "P value" = round(HR.p, digits = 4))
+
+kable(HR.table, row.names = FALSE, align = c("l", "c", "c", "c", "c"))
+```
+
+<small>The following variables were dropped: Patient's age > median, caucasian race, glans location, high grade tumor (grade 3), high pN stage (> pN0), metastatis inguinal lymph nodes, prophylactic inguinal lymph node dissection.</small><br><br>
+
+#### Forest plot for tumor recurrence
+```{r RecurrenceForestPlotHR}
+ggplot(data = data.frame(HR.table),
+       aes(x = HR.variables, y = HR.center, ymin = HR.low, ymax = HR.high)) +
+        geom_errorbar(width = 0.25, size = 0.75) + 
+        geom_hline(y = 1, linetype = "longdash") +
+        geom_point(size = 2, shape = 15) + 
+        coord_flip() +
+        xlab("") + ylab("Hazard ratios") + 
+        theme_classic(base_size = 15, base_family = "")
+```
 
 ***
+
+### Tumor progression
+#### Hazard ratios for outcome
+```{r ProgressionHR}
+status <- as.numeric(progression)
+time <- date.progression.mo
+var <- Surv(time, status)
+
+# Regression models
+age.HR <- coxph(var ~ older)
+race.HR <- coxph(var ~ caucasian)
+site.HR <- coxph(var ~ glans)
+level.HR <- coxph(var ~ lp)
+grade.HR <- coxph(var ~ high.grade)
+thick.HR <- coxph(var ~ deep)
+urethra.HR <- coxph(var ~ urethra)
+lvi.HR <- coxph(var ~ lvi)
+pni.HR <- coxph(var ~ pni)
+hpv.HR <- coxph(var ~ hpv.pos)
+pt.HR <- coxph (var ~ high.pt)
+pn.HR <- coxph (var ~ high.pn)
+stage.HR <- coxph (var ~ high.stage)
+nodes.HR <- coxph(var ~ nodes)
+dissection.HR <- coxph(var ~ prophylactic)
+EGFR.HR <- coxph(var ~ high.EGFR)
+
+# OR table
+HR.variables <- c("Patient's age > median", "Caucasian race", "Glans location", "Invasion limited to lamina propria", "High grade tumor (grade 3)", "Deep invasive tumor (> 10 mm)", "Invasion of penile urethra", "Lymphovascular invasion", "Perineural invasion", "HPV infection", "High pT stage (> pT1)", "High pN stage (> pN0)", "High clinical stage (> Stage II)", "Prophylactic inguinal lymph node dissection", "Metastatic inguinal lymph nodes", "High EGFR expression")
+
+HR.center <- c(exp(coef(age.HR)), exp(coef(race.HR)), exp(coef(site.HR)), exp(coef(level.HR)), exp(coef(grade.HR)), exp(coef(thick.HR)), exp(coef(urethra.HR)), exp(coef(lvi.HR)), exp(coef(pni.HR)), exp(coef(hpv.HR)), exp(coef(pt.HR)), exp(coef(pn.HR)), exp(coef(stage.HR)), exp(coef(dissection.HR)), exp(coef(nodes.HR)), exp(coef(EGFR.HR)))
+
+HR.low <- c(exp(confint(age.HR))[1, 1], exp(confint(race.HR))[1, 1], exp(confint(site.HR))[1, 1], exp(confint(level.HR))[1, 1], exp(confint(grade.HR))[1, 1], exp(confint(thick.HR))[1, 1], exp(confint(urethra.HR))[1, 1], exp(confint(lvi.HR))[1, 1], exp(confint(pni.HR))[1, 1], exp(confint(hpv.HR))[1, 1], exp(confint(pt.HR))[1, 1], exp(confint(pn.HR))[1, 1], exp(confint(stage.HR))[1, 1], exp(confint(dissection.HR))[1, 1], exp(confint(nodes.HR))[1, 1], exp(confint(EGFR.HR))[1, 1])
+
+HR.high <- c(exp(confint(age.HR))[1, 2], exp(confint(race.HR))[1, 2], exp(confint(site.HR))[1, 2], exp(confint(level.HR))[1, 2], exp(confint(grade.HR))[1, 2], exp(confint(thick.HR))[1, 2], exp(confint(urethra.HR))[1, 2], exp(confint(lvi.HR))[1, 2], exp(confint(pni.HR))[1, 2], exp(confint(hpv.HR))[1, 2], exp(confint(pt.HR))[1, 2], exp(confint(pn.HR))[1, 2], exp(confint(stage.HR))[1, 2], exp(confint(dissection.HR))[1, 2], exp(confint(nodes.HR))[1, 2], exp(confint(EGFR.HR))[1, 2])
+
+HR.p <- c(summary(age.HR)$coef[1, 5], summary(race.HR)$coef[1, 5], summary(site.HR)$coef[1, 5], summary(level.HR)$coef[1, 5], summary(grade.HR)$coef[1, 5], summary(thick.HR)$coef[1, 5], summary(urethra.HR)$coef[1, 5], summary(lvi.HR)$coef[1, 5], summary(pni.HR)$coef[1, 5], summary(hpv.HR)$coef[1, 5], summary(pt.HR)$coef[1, 5], summary(pn.HR)$coef[1, 5], summary(stage.HR)$coef[1, 5], summary(dissection.HR)$coef[1, 5], summary(nodes.HR)$coef[1, 5], summary(EGFR.HR)$coef[1, 5])
+
+HR.table <- cbind("Variable" = HR.variables, "HR" = round(HR.center, digits = 2), "Lower 95% CI" = round(HR.low, digits = 2), "Upper 95% CI" = round(HR.high, digits = 2), "P value" = round(HR.p, digits = 4))
+
+kable(HR.table, row.names = FALSE, align = c("l", "c", "c", "c", "c"))
+```
+
+<br><br>
+
+#### Forest plot for tumor progression
+```{r ProgressionForestPlotHR}
+ggplot(data = data.frame(HR.table),
+       aes(x = HR.variables, y = HR.center, ymin = HR.low, ymax = HR.high)) +
+        geom_errorbar(width = 0.25, size = 0.75) + 
+        geom_hline(y = 1, linetype = "longdash") +
+        geom_point(size = 2, shape = 15) + 
+        coord_flip() +
+        xlab("") + ylab("Hazard ratios") + 
+        theme_classic(base_size = 15, base_family = "")
+```
+
+***
+
+### Distant metastasis
+#### Hazard ratios for outcome
+```{r MetsHR}
+status <- as.numeric(mets)
+time <- date.met.mo
+var <- Surv(time, status)
+
+# Regression models
+age.HR <- coxph(var ~ older)
+race.HR <- coxph(var ~ caucasian)
+site.HR <- coxph(var ~ glans)
+level.HR <- coxph(var ~ lp)
+grade.HR <- coxph(var ~ high.grade)
+thick.HR <- coxph(var ~ deep)
+urethra.HR <- coxph(var ~ urethra)
+lvi.HR <- coxph(var ~ lvi)
+pni.HR <- coxph(var ~ pni)
+hpv.HR <- coxph(var ~ hpv.pos)
+pt.HR <- coxph (var ~ high.pt)
+pn.HR <- coxph (var ~ high.pn) # Dropped
+stage.HR <- coxph (var ~ high.stage) # Dropped
+nodes.HR <- coxph(var ~ nodes) # Dropped
+dissection.HR <- coxph(var ~ prophylactic) # Dropped
+EGFR.HR <- coxph(var ~ high.EGFR)
+
+# OR table
+HR.variables <- c("Patient's age > median", "Caucasian race", "Glans location", "Invasion limited to lamina propria", "High grade tumor (grade 3)", "Deep invasive tumor (> 10 mm)", "Invasion of penile urethra", "Lymphovascular invasion", "Perineural invasion", "HPV infection", "High pT stage (> pT1)", "High EGFR expression")
+
+HR.center <- c(exp(coef(age.HR)), exp(coef(race.HR)), exp(coef(site.HR)), exp(coef(level.HR)), exp(coef(grade.HR)), exp(coef(thick.HR)), exp(coef(urethra.HR)), exp(coef(lvi.HR)), exp(coef(pni.HR)), exp(coef(hpv.HR)), exp(coef(pt.HR)), exp(coef(EGFR.HR)))
+
+HR.low <- c(exp(confint(age.HR))[1, 1], exp(confint(race.HR))[1, 1], exp(confint(site.HR))[1, 1], exp(confint(level.HR))[1, 1], exp(confint(grade.HR))[1, 1], exp(confint(thick.HR))[1, 1], exp(confint(urethra.HR))[1, 1], exp(confint(lvi.HR))[1, 1], exp(confint(pni.HR))[1, 1], exp(confint(hpv.HR))[1, 1], exp(confint(pt.HR))[1, 1], exp(confint(EGFR.HR))[1, 1])
+
+HR.high <- c(exp(confint(age.HR))[1, 2], exp(confint(race.HR))[1, 2], exp(confint(site.HR))[1, 2], exp(confint(level.HR))[1, 2], exp(confint(grade.HR))[1, 2], exp(confint(thick.HR))[1, 2], exp(confint(urethra.HR))[1, 2], exp(confint(lvi.HR))[1, 2], exp(confint(pni.HR))[1, 2], exp(confint(hpv.HR))[1, 2], exp(confint(pt.HR))[1, 2], exp(confint(EGFR.HR))[1, 2])
+
+HR.p <- c(summary(age.HR)$coef[1, 5], summary(race.HR)$coef[1, 5], summary(site.HR)$coef[1, 5], summary(level.HR)$coef[1, 5], summary(grade.HR)$coef[1, 5], summary(thick.HR)$coef[1, 5], summary(urethra.HR)$coef[1, 5], summary(lvi.HR)$coef[1, 5], summary(pni.HR)$coef[1, 5], summary(hpv.HR)$coef[1, 5], summary(pt.HR)$coef[1, 5], summary(EGFR.HR)$coef[1, 5])
+
+HR.table <- cbind("Variable" = HR.variables, "HR" = round(HR.center, digits = 2), "Lower 95% CI" = round(HR.low, digits = 2), "Upper 95% CI" = round(HR.high, digits = 2), "P value" = round(HR.p, digits = 4))
+
+kable(HR.table, row.names = FALSE, align = c("l", "c", "c", "c", "c"))
+```
+
+<small>The following variables were dropped: high pN stage (> pN0), high clinical stage (> Stage II), prophylactic inguinal lymph node dissection, and metastatic inguinal lymph nodes. </small><br><br>
+
+#### HR Forest plot for outcome
+```{r MetsForestPlotHR}
+ggplot(data = data.frame(HR.table),
+       aes(x = HR.variables, y = HR.center, ymin = HR.low, ymax = HR.high)) +
+        geom_errorbar(width = 0.25, size = 0.75) + 
+        geom_hline(y = 1, linetype = "longdash") +
+        geom_point(size = 2, shape = 15) + 
+        coord_flip() +
+        xlab("") + ylab("Hazard ratios") + 
+        theme_classic(base_size = 15, base_family = "")
+```
+
+***
+
+### Overall mortality
+#### Hazard ratios for overall mortality
+```{r DeadHR}
+status <- as.numeric(dead)
+time <- fu.last.mo
+var <- Surv(time, status)
+
+# Regression models
+age.HR <- coxph(var ~ older)
+race.HR <- coxph(var ~ caucasian)
+site.HR <- coxph(var ~ glans)
+level.HR <- coxph(var ~ lp)
+grade.HR <- coxph(var ~ high.grade)
+thick.HR <- coxph(var ~ deep)
+urethra.HR <- coxph(var ~ urethra)
+lvi.HR <- coxph(var ~ lvi)
+pni.HR <- coxph(var ~ pni)
+hpv.HR <- coxph(var ~ hpv.pos)
+pt.HR <- coxph (var ~ high.pt)
+pn.HR <- coxph (var ~ high.pn)
+stage.HR <- coxph (var ~ high.stage)
+nodes.HR <- coxph(var ~ nodes)
+dissection.HR <- coxph(var ~ prophylactic)
+EGFR.HR <- coxph(var ~ high.EGFR)
+
+# HR table
+HR.variables <- c("Patient's age > median", "Caucasian race", "Glans location", "Invasion limited to lamina propria", "High grade tumor (grade 3)", "Deep invasive tumor (> 10 mm)", "Invasion of penile urethra", "Lymphovascular invasion", "Perineural invasion", "HPV infection", "High pT stage (> pT1)", "High pN stage (> pN0)", "High clinical stage (> Stage II)", "Prophylactic inguinal lymph node dissection", "Metastatic inguinal lymph nodes", "High EGFR expression")
+
+HR.center <- c(exp(coef(age.HR)), exp(coef(race.HR)), exp(coef(site.HR)), exp(coef(level.HR)), exp(coef(grade.HR)), exp(coef(thick.HR)), exp(coef(urethra.HR)), exp(coef(lvi.HR)), exp(coef(pni.HR)), exp(coef(hpv.HR)), exp(coef(pt.HR)), exp(coef(pn.HR)), exp(coef(stage.HR)), exp(coef(dissection.HR)), exp(coef(nodes.HR)), exp(coef(EGFR.HR)))
+
+HR.low <- c(exp(confint(age.HR))[1, 1], exp(confint(race.HR))[1, 1], exp(confint(site.HR))[1, 1], exp(confint(level.HR))[1, 1], exp(confint(grade.HR))[1, 1], exp(confint(thick.HR))[1, 1], exp(confint(urethra.HR))[1, 1], exp(confint(lvi.HR))[1, 1], exp(confint(pni.HR))[1, 1], exp(confint(hpv.HR))[1, 1], exp(confint(pt.HR))[1, 1], exp(confint(pn.HR))[1, 1], exp(confint(stage.HR))[1, 1], exp(confint(dissection.HR))[1, 1], exp(confint(nodes.HR))[1, 1], exp(confint(EGFR.HR))[1, 1])
+
+HR.high <- c(exp(confint(age.HR))[1, 2], exp(confint(race.HR))[1, 2], exp(confint(site.HR))[1, 2], exp(confint(level.HR))[1, 2], exp(confint(grade.HR))[1, 2], exp(confint(thick.HR))[1, 2], exp(confint(urethra.HR))[1, 2], exp(confint(lvi.HR))[1, 2], exp(confint(pni.HR))[1, 2], exp(confint(hpv.HR))[1, 2], exp(confint(pt.HR))[1, 2], exp(confint(pn.HR))[1, 2], exp(confint(stage.HR))[1, 2], exp(confint(dissection.HR))[1, 2], exp(confint(nodes.HR))[1, 2], exp(confint(EGFR.HR))[1, 2])
+
+HR.p <- c(summary(age.HR)$coef[1, 5], summary(race.HR)$coef[1, 5], summary(site.HR)$coef[1, 5], summary(level.HR)$coef[1, 5], summary(grade.HR)$coef[1, 5], summary(thick.HR)$coef[1, 5], summary(urethra.HR)$coef[1, 5], summary(lvi.HR)$coef[1, 5], summary(pni.HR)$coef[1, 5], summary(hpv.HR)$coef[1, 5], summary(pt.HR)$coef[1, 5], summary(pn.HR)$coef[1, 5], summary(stage.HR)$coef[1, 5], summary(dissection.HR)$coef[1, 5], summary(nodes.HR)$coef[1, 5], summary(EGFR.HR)$coef[1, 5])
+
+HR.table <- cbind("Variable" = HR.variables, "HR" = round(HR.center, digits = 2), "Lower 95% CI" = round(HR.low, digits = 2), "Upper 95% CI" = round(HR.high, digits = 2), "P value" = round(HR.p, digits = 4))
+
+kable(HR.table, row.names = FALSE, align = c("l", "c", "c", "c", "c"))
+```
+
+<br><br>
+
+#### HR Forest plot for overall mortality
+```{r DeadForestPlotHR}
+ggplot(data = data.frame(HR.table),
+       aes(x = HR.variables, y = HR.center, ymin = HR.low, ymax = HR.high)) +
+        geom_errorbar(width = 0.25, size = 0.75) + 
+        geom_hline(y = 1, linetype = "longdash") +
+        geom_point(size = 2, shape = 15) + 
+        coord_flip() +
+        xlab("") + ylab("Hazard ratios") + 
+        theme_classic(base_size = 15, base_family = "")
+```
+
+***
+
+### Cancer-related mortality
+#### Hazard ratios for outcome
+```{r DODHR}
+status <- as.numeric(died.disease)
+time <- fu.last.mo
+var <- Surv(time, status)
+
+# Regression models
+age.HR <- coxph(var ~ older)
+site.HR <- coxph(var ~ glans)
+level.HR <- coxph(var ~ lp)
+grade.HR <- coxph(var ~ high.grade)
+thick.HR <- coxph(var ~ deep)
+urethra.HR <- coxph(var ~ urethra)
+lvi.HR <- coxph(var ~ lvi)
+pni.HR <- coxph(var ~ pni)
+hpv.HR <- coxph(var ~ hpv.pos)
+pt.HR <- coxph (var ~ high.pt)
+pn.HR <- coxph (var ~ high.pn)
+stage.HR <- coxph (var ~ high.stage)
+nodes.HR <- coxph(var ~ nodes)
+dissection.HR <- coxph(var ~ prophylactic)
+EGFR.HR <- coxph(var ~ high.EGFR)
+
+# HR table
+HR.variables <- c("Patient's age > median", "Glans location", "Invasion limited to lamina propria", "High grade tumor (grade 3)", "Deep invasive tumor (> 10 mm)", "Invasion of penile urethra", "Lymphovascular invasion", "Perineural invasion", "HPV infection", "High pT stage (> pT1)", "High pN stage (> pN0)", "High clinical stage (> Stage II)", "Prophylactic inguinal lymph node dissection", "Metastatic inguinal lymph nodes", "High EGFR expression")
+
+HR.center <- c(exp(coef(age.HR)), exp(coef(site.HR)), exp(coef(level.HR)), exp(coef(grade.HR)), exp(coef(thick.HR)), exp(coef(urethra.HR)), exp(coef(lvi.HR)), exp(coef(pni.HR)), exp(coef(hpv.HR)), exp(coef(pt.HR)), exp(coef(pn.HR)), exp(coef(stage.HR)), exp(coef(dissection.HR)), exp(coef(nodes.HR)), exp(coef(EGFR.HR)))
+
+HR.low <- c(exp(confint(age.HR))[1, 1], exp(confint(site.HR))[1, 1], exp(confint(level.HR))[1, 1], exp(confint(grade.HR))[1, 1], exp(confint(thick.HR))[1, 1], exp(confint(urethra.HR))[1, 1], exp(confint(lvi.HR))[1, 1], exp(confint(pni.HR))[1, 1], exp(confint(hpv.HR))[1, 1], exp(confint(pt.HR))[1, 1], exp(confint(pn.HR))[1, 1], exp(confint(stage.HR))[1, 1], exp(confint(dissection.HR))[1, 1], exp(confint(nodes.HR))[1, 1], exp(confint(EGFR.HR))[1, 1])
+
+HR.high <- c(exp(confint(age.HR))[1, 2], exp(confint(site.HR))[1, 2], exp(confint(level.HR))[1, 2], exp(confint(grade.HR))[1, 2], exp(confint(thick.HR))[1, 2], exp(confint(urethra.HR))[1, 2], exp(confint(lvi.HR))[1, 2], exp(confint(pni.HR))[1, 2], exp(confint(hpv.HR))[1, 2], exp(confint(pt.HR))[1, 2], exp(confint(pn.HR))[1, 2], exp(confint(stage.HR))[1, 2], exp(confint(dissection.HR))[1, 2], exp(confint(nodes.HR))[1, 2], exp(confint(EGFR.HR))[1, 2])
+
+HR.p <- c(summary(age.HR)$coef[1, 5], summary(site.HR)$coef[1, 5], summary(level.HR)$coef[1, 5], summary(grade.HR)$coef[1, 5], summary(thick.HR)$coef[1, 5], summary(urethra.HR)$coef[1, 5], summary(lvi.HR)$coef[1, 5], summary(pni.HR)$coef[1, 5], summary(hpv.HR)$coef[1, 5], summary(pt.HR)$coef[1, 5], summary(pn.HR)$coef[1, 5], summary(stage.HR)$coef[1, 5], summary(dissection.HR)$coef[1, 5], summary(nodes.HR)$coef[1, 5], summary(EGFR.HR)$coef[1, 5])
+
+HR.table <- cbind("Variable" = HR.variables, "HR" = round(HR.center, digits = 2), "Lower 95% CI" = round(HR.low, digits = 2), "Upper 95% CI" = round(HR.high, digits = 2), "P value" = round(HR.p, digits = 4))
+
+kable(HR.table, row.names = FALSE, align = c("l", "c", "c", "c", "c"))
+```
+
+<small>The following variable was dropped: caucasian race.</small><br><br>
+
+#### HR Forest plot for outcome
+```{r DODForestPlotHR}
+ggplot(data = data.frame(HR.table),
+       aes(x = HR.variables, y = HR.center, ymin = HR.low, ymax = HR.high)) +
+        geom_errorbar(width = 0.25, size = 0.75) + 
+        geom_hline(y = 1, linetype = "longdash") +
+        geom_point(size = 2, shape = 15) + 
+        coord_flip() +
+        xlab("") + ylab("Hazard ratios") + 
+        theme_classic(base_size = 15, base_family = "")
+```

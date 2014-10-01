@@ -1,5 +1,5 @@
 # EGFR Expression in Penile Cancer
-Last update: ``Tue Sep 30 11:01:10 2014``
+Last update: ``Tue Sep 30 21:34:03 2014``
 
 
 ```r
@@ -1040,6 +1040,134 @@ This section reports the odds ratios (OR) for outcome (tumor recurrence, tumor p
 ***
 
 ## Hazard Ratios
-This section, currently under preparation, will report the hazard ratios for outcome (tumor recurrence, tumor progression, distant metastasis, overall mortality, and cancer-related mortality) considering EGFR expression using Cox's proportional hazards regression (unadjusted and adjusted) models.
+This section, currently under preparation, will report the hazard ratios for outcome (tumor recurrence, tumor progression, distant metastasis, overall mortality, and cancer-related mortality) considering EGFR expression using Cox's proportional hazards regression (unadjusted and adjusted) models.  Variables with extremely low or extremely high HR and variables in which the outcome was not observed were dropped from the report.
+
+### Tumor recurrence
+#### Hazard ratios for tumor recurrence
+
+|Variable                           |  HR  | Lower 95% CI | Upper 95% CI | P value |
+|:----------------------------------|:----:|:------------:|:------------:|:-------:|
+|Invasion limited to lamina propria | 0.62 |     0.05     |      7       | 0.6975  |
+|Deep invasive tumor (> 10 mm)      | 0.88 |     0.08     |    10.26     | 0.9183  |
+|Lymphovascular invasion            | 1.62 |     0.14     |    18.31     | 0.6975  |
+|Perineural invasion                | 0.88 |     0.08     |    10.26     | 0.9183  |
+|HPV infection                      | 1.62 |     0.14     |    18.31     | 0.6975  |
+|High pT stage (> pT1)              | 1.62 |     0.14     |    18.31     | 0.6975  |
+|High clinical stage (> Stage II)   | 2.45 |     0.15     |    39.72     | 0.5285  |
+|High EGFR expression               | 0.41 |     0.03     |     6.62     | 0.5285  |
+
+<small>The following variables were dropped: Patient's age > median, caucasian race, glans location, high grade tumor (grade 3), high pN stage (> pN0), metastatis inguinal lymph nodes, prophylactic inguinal lymph node dissection.</small><br><br>
+
+#### Forest plot for tumor recurrence
+![plot of chunk RecurrenceForestPlotHR](figure/RecurrenceForestPlotHR.png) 
 
 ***
+
+### Tumor progression
+#### Hazard ratios for outcome
+
+|Variable                                    |  HR  | Lower 95% CI | Upper 95% CI | P value |
+|:-------------------------------------------|:----:|:------------:|:------------:|:-------:|
+|Patient's age > median                      | 0.98 |     0.32     |     3.02     | 0.9682  |
+|Caucasian race                              | 2.33 |     0.5      |    10.86     | 0.2828  |
+|Glans location                              | 0.91 |     0.28     |     3.03     | 0.8824  |
+|Invasion limited to lamina propria          | 2.05 |     0.24     |    17.64     | 0.5123  |
+|High grade tumor (grade 3)                  | 1.07 |     0.35     |     3.21     | 0.9086  |
+|Deep invasive tumor (> 10 mm)               | 6.21 |     0.77     |    50.14     | 0.0865  |
+|Invasion of penile urethra                  | 2.58 |     0.73     |     9.04     | 0.1393  |
+|Lymphovascular invasion                     | 0.82 |     0.27     |     2.44     | 0.7147  |
+|Perineural invasion                         | 1.17 |     0.36     |     3.85     | 0.7919  |
+|HPV infection                               | 0.25 |     0.05     |     1.17     |  0.079  |
+|High pT stage (> pT1)                       | 0.49 |     0.06     |     4.19     | 0.5123  |
+|High pN stage (> pN0)                       |  1   |     0.29     |     3.38     | 0.9942  |
+|High clinical stage (> Stage II)            | 1.22 |     0.39     |     3.84     |  0.732  |
+|Prophylactic inguinal lymph node dissection | 2.24 |     0.53     |     9.36     | 0.2705  |
+|Metastatic inguinal lymph nodes             |  1   |     0.29     |     3.38     | 0.9942  |
+|High EGFR expression                        | 1.99 |     0.54     |     7.3      | 0.3017  |
+
+<br><br>
+
+#### Forest plot for tumor progression
+![plot of chunk ProgressionForestPlotHR](figure/ProgressionForestPlotHR.png) 
+
+***
+
+### Distant metastasis
+#### Hazard ratios for outcome
+
+|Variable                           |  HR  | Lower 95% CI | Upper 95% CI | P value |
+|:----------------------------------|:----:|:------------:|:------------:|:-------:|
+|Patient's age > median             | 1.56 |     0.3      |     8.29     | 0.5985  |
+|Caucasian race                     | 0.44 |     0.09     |     2.21     | 0.3201  |
+|Glans location                     | 0.75 |     0.15     |     3.84     | 0.7279  |
+|Invasion limited to lamina propria | 7.48 |     0.47     |    119.82    | 0.1549  |
+|High grade tumor (grade 3)         | 2.47 |     0.47     |    13.02     | 0.2851  |
+|Deep invasive tumor (> 10 mm)      | 1.13 |     0.22     |     5.86     | 0.8853  |
+|Invasion of penile urethra         | 1.09 |     0.21     |     5.7      | 0.9143  |
+|Lymphovascular invasion            | 1.53 |     0.36     |     6.47     | 0.5668  |
+|Perineural invasion                | 0.46 |     0.1      |     2.07     | 0.3083  |
+|HPV infection                      | 0.86 |     0.19     |     3.79     | 0.8411  |
+|High pT stage (> pT1)              | 0.13 |     0.01     |     2.14     | 0.1549  |
+|High EGFR expression               | 0.52 |     0.12     |     2.36     | 0.4002  |
+
+<small>The following variables were dropped: high pN stage (> pN0), high clinical stage (> Stage II), prophylactic inguinal lymph node dissection, and metastatic inguinal lymph nodes. </small><br><br>
+
+#### HR Forest plot for outcome
+![plot of chunk MetsForestPlotHR](figure/MetsForestPlotHR.png) 
+
+***
+
+### Overall mortality
+#### Hazard ratios for overall mortality
+
+|Variable                                    |  HR  | Lower 95% CI | Upper 95% CI | P value |
+|:-------------------------------------------|:----:|:------------:|:------------:|:-------:|
+|Patient's age > median                      | 0.88 |     0.38     |     2.04     |  0.772  |
+|Caucasian race                              | 1.59 |     0.58     |     4.37     | 0.3698  |
+|Glans location                              | 1.64 |     0.7      |     3.86     | 0.2566  |
+|Invasion limited to lamina propria          | 0.32 |     0.11     |     0.91     | 0.0321  |
+|High grade tumor (grade 3)                  | 2.22 |     0.87     |     5.67     |  0.096  |
+|Deep invasive tumor (> 10 mm)               | 3.63 |     1.32     |     9.98     | 0.0124  |
+|Invasion of penile urethra                  | 4.71 |     1.71     |    13.03     | 0.0028  |
+|Lymphovascular invasion                     | 2.27 |     0.89     |     5.78     | 0.0843  |
+|Perineural invasion                         | 5.34 |     1.97     |     14.5     |  0.001  |
+|HPV infection                               | 1.05 |     0.35     |     3.21     | 0.9277  |
+|High pT stage (> pT1)                       | 3.37 |     1.18     |     9.63     | 0.0232  |
+|High pN stage (> pN0)                       | 1.28 |     0.38     |     4.32     | 0.6939  |
+|High clinical stage (> Stage II)            | 2.04 |     0.74     |     5.61     | 0.1686  |
+|Prophylactic inguinal lymph node dissection | 2.29 |     0.55     |     9.43     |  0.253  |
+|Metastatic inguinal lymph nodes             | 1.28 |     0.38     |     4.32     | 0.6939  |
+|High EGFR expression                        | 1.58 |     0.68     |     3.69     |  0.287  |
+
+<br><br>
+
+#### HR Forest plot for overall mortality
+![plot of chunk DeadForestPlotHR](figure/DeadForestPlotHR.png) 
+
+***
+
+### Cancer-related mortality
+#### Hazard ratios for outcome
+
+|Variable                                    |  HR  | Lower 95% CI | Upper 95% CI | P value |
+|:-------------------------------------------|:----:|:------------:|:------------:|:-------:|
+|Patient's age > median                      | 0.5  |     0.12     |     1.99     | 0.3225  |
+|Glans location                              | 0.69 |     0.18     |     2.56     | 0.5737  |
+|Invasion limited to lamina propria          | 0.26 |     0.05     |     1.25     | 0.0916  |
+|High grade tumor (grade 3)                  | 3.1  |     0.83     |    11.61     | 0.0938  |
+|Deep invasive tumor (> 10 mm)               | 9.96 |     2.28     |    43.43     | 0.0022  |
+|Invasion of penile urethra                  | 6.3  |     1.65     |    23.98     |  0.007  |
+|Lymphovascular invasion                     | 5.14 |     1.28     |    20.62     | 0.0208  |
+|Perineural invasion                         | 8.5  |     1.99     |    36.23     | 0.0038  |
+|HPV infection                               | 1.05 |     0.22     |     5.07     | 0.9514  |
+|High pT stage (> pT1)                       | 4.14 |     0.85     |    20.11     | 0.0782  |
+|High pN stage (> pN0)                       | 2.63 |     0.62     |    11.23     | 0.1917  |
+|High clinical stage (> Stage II)            | 8.56 |     2.02     |    36.37     | 0.0036  |
+|Prophylactic inguinal lymph node dissection | 1.96 |     0.39     |     9.87     | 0.4155  |
+|Metastatic inguinal lymph nodes             | 2.63 |     0.62     |    11.23     | 0.1917  |
+|High EGFR expression                        | 2.5  |     0.62     |    10.03     | 0.1959  |
+
+<small>The following variable was dropped: caucasian race.</small><br><br>
+
+#### HR Forest plot for outcome
+![plot of chunk DODForestPlotHR](figure/DODForestPlotHR.png) 
