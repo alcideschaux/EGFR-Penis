@@ -1,7 +1,7 @@
 ## EGFR in Penile SCC
 
 ### Description
-This repository, currently **under preparation**, contains information on patients with penile squamous cell carcinoma (SCC) in whom EGFR expression was assessed. The repository contains the following files, pages, and folders:
+This repository contains information on patients with penile squamous cell carcinoma (SCC) in whom EGFR expression was assessed. The repository contains the following files, pages, and folders:
 
 * [Results:](https://github.com/alcideschaux/PenisEGFR/blob/master/EGFRpenis.md) This page contains the results of the analysis.
 * [Codebook:](https://github.com/alcideschaux/PenisEGFR/blob/master/CODEBOOK.md) This page contains the description of the variables with labels and levels.
