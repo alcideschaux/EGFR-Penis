@@ -1,5 +1,5 @@
 # EGFR Expression in Penile Cancer
-Last update: ``Tue Sep 30 21:34:03 2014``
+Last update: ``Tue Sep 30 21:47:07 2014``
 
 
 ```r
@@ -1040,7 +1040,7 @@ This section reports the odds ratios (OR) for outcome (tumor recurrence, tumor p
 ***
 
 ## Hazard Ratios
-This section, currently under preparation, will report the hazard ratios for outcome (tumor recurrence, tumor progression, distant metastasis, overall mortality, and cancer-related mortality) considering EGFR expression using Cox's proportional hazards regression (unadjusted and adjusted) models.  Variables with extremely low or extremely high HR and variables in which the outcome was not observed were dropped from the report.
+This section reports the hazard ratios (HR) for outcome (tumor recurrence, tumor progression, distant metastasis, overall mortality, and cancer-related mortality) considering EGFR expression using Cox's proportional hazards regression models. Variables with extremely low/high HR and variables in which no interaction was observed were dropped from the report.
 
 ### Tumor recurrence
 #### Hazard ratios for tumor recurrence
@@ -1147,7 +1147,7 @@ This section, currently under preparation, will report the hazard ratios for out
 ***
 
 ### Cancer-related mortality
-#### Hazard ratios for outcome
+#### Hazard ratios for cancer-related mortality
 
 |Variable                                    |  HR  | Lower 95% CI | Upper 95% CI | P value |
 |:-------------------------------------------|:----:|:------------:|:------------:|:-------:|
@@ -1169,5 +1169,5 @@ This section, currently under preparation, will report the hazard ratios for out
 
 <small>The following variable was dropped: caucasian race.</small><br><br>
 
-#### HR Forest plot for outcome
+#### HR Forest plot for cancer-related mortality
 ![plot of chunk DODForestPlotHR](figure/DODForestPlotHR.png) 
